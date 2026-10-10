@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<!-- AULA 1: o DOCTYPE avisa ao navegador que este arquivo é HTML5. -->
+<!-- data-theme="dark": o JavaScript troca este atributo para mudar o tema (veja o CSS e o JS). -->
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"> <!-- UTF-8: acentos (ç, ã, é) aparecem certinho -->
+  <!-- viewport: essencial no MOBILE FIRST. Sem ela o celular "encolhe" o site -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marco Túlio | Desenvolvedor Web Júnior</title>
+  <meta name="description" content="Portfólio de Marco Túlio, estudante de Técnico em Informática e desenvolvedor web júnior. Projetos com Java, C#, PHP, HTML e CSS.">
+  <meta name="theme-color" content="#0a0d16">
+  <!-- Open Graph: a "prévia" do link quando você compartilha o site no WhatsApp, LinkedIn etc. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Marco Túlio | Desenvolvedor Web Júnior">
+  <meta property="og:description" content="Estudante de Técnico em Informática e desenvolvedor web júnior. Veja meus projetos.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/225286557?v=4&amp;s=460">
+  <!-- Favicon (ícone da aba) desenhado em SVG dentro do próprio arquivo: nada de arquivo extra para subir no GitHub -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23ff4081'/><text x='32' y='43' font-size='30' font-weight='bold' font-family='sans-serif' text-anchor='middle' fill='%230a0d16'>MT</text></svg>">
+
+  <style>
+    /* ===== 1. VARIÁVEIS CSS =====
+       :root é o "topo" da página: toda variável (--nome) criada aqui vale no site inteiro.
+       Mudou uma cor? Muda em todo lugar que usa var(--nome). Isso é reaproveitar código! */
+    :root {
+      --bg: #0a0d16;          /* fundo da página (azul-marinho, igual ao seu GitHub) */
+      --surface: #121626;     /* fundo dos cards */
+      --border: #252b45;      /* bordas */
+      --text: #e8ebf4;        /* texto principal */
+      --muted: #9aa3bd;       /* texto secundário */
+      --primary: #ff4081;     /* rosa de destaque */
+      --on-primary: #1a0610;  /* cor do texto SOBRE o rosa (contraste bom) */
+      --accent: #7ef0ff;      /* ciano de destaque */
+      --gold: #ffd54a;        /* amarelo das tags */
+      --ok: #3ddc84;          /* sucesso */
+      --error: #ff8a80;       /* erro */
+      --header-bg: rgba(10, 13, 22, .9);
+      --shadow: 0 6px 18px rgba(0, 0, 0, .3);
+      --wave-a: #12071a;      /* cores da onda do topo (banner do seu README) */
+      --wave-b: #b03a6b;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* fontes que já existem no computador */
+      --mono: ui-monospace, Consolas, "Courier New", monospace;
+      --radius: 14px;
+      --speed: .25s;          /* duração das transições */
+      color-scheme: dark;     /* avisa o navegador: campos e barras de rolagem escuros */
+    }
+    /* TEMA CLARO: o JS põe data-theme="light" na tag <html> e este bloco SOBRESCREVE só as variáveis que mudam.
+       Os componentes nem sabem que o tema mudou: é o poder das variáveis. */
+    :root[data-theme="light"] {
+      --bg: #f6f7fb; --surface: #ffffff; --border: #dfe3ef;
+      --text: #151a2d; --muted: #566080;
+      --primary: #d81b60; --on-primary: #ffffff; --accent: #0b7285; --gold: #8a6500;
+      --ok: #1b873f; --error: #c62828;
+      --header-bg: rgba(246, 247, 251, .9); --shadow: 0 6px 18px rgba(21, 26, 45, .08);
+      --wave-a: #ffe3ee; --wave-b: #ff6f9f;
+      color-scheme: light;
+    }
+
+    /* ===== 2. RESET E BASE =====
+       box-sizing: border-box faz padding e borda ficarem DENTRO da largura do elemento (conta mais fácil). */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.65; }
+    a { color: inherit; text-decoration: none; transition: color var(--speed); }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; } /* foco visível para quem usa teclado */
+
+    /* min() escolhe o MENOR valor: 100% da tela menos 2rem de respiro, mas nunca mais que 1050px.
+       margin-inline:auto centraliza o bloco. */
+    .container { width: min(100% - 2rem, 1050px); margin-inline: auto; }
+    section { padding: 4.5rem 0; scroll-margin-top: 70px; } /* scroll-margin-top: o menu fixo não cobre o título ao rolar */
+    .section-title { font-size: clamp(1.7rem, 5vw, 2.1rem); letter-spacing: -.02em; margin-bottom: 2rem; }
+    .section-title::after { content: ""; display: block; width: 56px; height: 4px; margin-top: .5rem; border-radius: 4px; background: var(--primary); }
+    .muted { color: var(--muted); }
+
+    /* ===== 3. CABEÇALHO E MENU =====
+       position: sticky faz o menu "grudar" no topo enquanto você rola. */
+    .site-header { position: sticky; top: 0; z-index: 10; background: var(--header-bg); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    /* FLEXBOX: display:flex põe os filhos lado a lado; space-between os distribui pelas pontas; align-items centraliza na vertical. */
+    .nav { display: flex; justify-content: space-between; align-items: center; height: 64px; gap: 1rem; }
+    .logo { font-family: var(--mono); font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+    .tools { display: flex; gap: .5rem; }
+    .icon-btn { background: none; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 1.1rem; line-height: 1; padding: .5rem .65rem; cursor: pointer; transition: border-color var(--speed); }
+    .icon-btn:hover { border-color: var(--primary); }
+    /* No celular o menu começa escondido; o JS adiciona a classe .open para mostrá-lo. */
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; padding: 1rem; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .nav-links a { display: block; padding: .6rem .9rem; border-radius: 8px; color: var(--muted); transition: color var(--speed), background var(--speed); }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--border); } /* .active = seção que você está lendo (o JS marca) */
+
+    /* ===== 4. HERO (primeira tela) ===== */
+    .hero { position: relative; overflow: hidden; padding: 3rem 0 8rem; }
+    /* Flex em COLUNA no celular: foto em cima e texto embaixo, tudo centralizado. */
+    .hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2rem; }
+    .avatar-ring { padding: 5px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); box-shadow: 0 0 0 8px rgba(255, 64, 129, .12), 0 0 60px rgba(255, 64, 129, .28); }
+    .avatar { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); } /* object-fit:cover recorta sem distorcer */
+    .greeting { color: var(--muted); }
+    /* clamp(mínimo, ideal, máximo): o título cresce com a tela, mas respeita os limites */
+    h1 { font-size: clamp(2.6rem, 10vw, 4.4rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.05; }
+    .headline { color: var(--muted); font-size: 1.1rem; max-width: 34ch; margin: .6rem auto 1rem; }
+    .typing { font-family: var(--mono); color: var(--primary); min-height: 1.7em; margin-bottom: 1.2rem; }
+    .prompt { color: var(--accent); }
+    /* O cursor piscando é uma caixinha com animação (@keyframes define os "quadros") */
+    .cursor { display: inline-block; width: .55ch; height: 1.1em; margin-left: 2px; vertical-align: -.15em; background: var(--primary); animation: piscar 1s steps(1) infinite; }
+    @keyframes piscar { 50% { opacity: 0; } }
+    .pills { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-bottom: 1.6rem; }
+    .pill { display: inline-flex; align-items: center; gap: .5rem; padding: .2rem .8rem; border: 1px solid var(--border); border-radius: 99px; font-size: .85rem; color: var(--muted); }
+    .pill.on::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); } /* bolinha verde = disponível */
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+    /* A onda no rodapé do hero lembra o banner do seu README no GitHub. Os stops usam as variáveis do tema. */
+    .wave { position: absolute; left: 0; bottom: 0; width: 100%; height: 90px; }
+    .wave stop:first-child { stop-color: var(--wave-a); }
+    .wave stop:last-child { stop-color: var(--wave-b); }
+
+    /* ===== 5. BOTÕES ===== */
+    .btn { display: inline-block; padding: .75rem 1.6rem; border: 2px solid var(--primary); border-radius: 99px; font: inherit; font-weight: 700; cursor: pointer; transition: transform var(--speed), box-shadow var(--speed), background var(--speed), color var(--speed); }
+    .btn-primary { background: var(--primary); color: var(--on-primary); }
+    .btn-outline { background: transparent; color: var(--primary); }
+    /* :hover = mouse em cima. translateY(-3px) sobe o botão 3px; a transition deixa o movimento suave. */
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 64, 129, .35); }
+    .btn-outline:hover { background: var(--primary); color: var(--on-primary); }
+
+    /* ===== 6. CARDS, GRID E LISTAS =====
+       CSS GRID: grid-template-columns define as colunas. No celular o grid tem 1 coluna só (padrão). */
+    .grid { display: grid; gap: 1.5rem; }
+    .stack { display: grid; gap: 1.25rem; align-content: start; }
+    .stack .btn { justify-self: start; } /* sem isso o botão esticaria até a largura toda */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); transition: transform var(--speed), border-color var(--speed); }
+    .card:hover { transform: translateY(-4px); border-color: var(--primary); }
+    form.card:hover { transform: none; } /* o formulário não precisa "pular" */
+    .card h3 { margin-bottom: .8rem; }
+    .sub { font-size: 1.05rem; color: var(--accent); }
+    .about p { max-width: 65ch; } /* linhas curtas são mais fáceis de ler */
+    .edu { display: flex; align-items: center; gap: 1rem; }
+    .edu > span { font-size: 1.8rem; }
+    .edu h3 { margin-bottom: .2rem; font-size: 1.05rem; }
+
+    /* Skills: cada badge recebe a própria cor pela variável --c (escrita direto no HTML) */
+    .badges { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .badge { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .9rem; border: 1px solid var(--border); border-radius: 99px; background: var(--bg); font-size: .9rem; font-weight: 600; transition: transform var(--speed), border-color var(--speed); }
+    .badge::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+    .badge:hover { transform: translateY(-3px); border-color: var(--c); }
+    /* Barra de linguagens: cada pedaço usa flex-grow = porcentagem, e o navegador divide o espaço na proporção certa */
+    .bar { display: flex; gap: 2px; height: 12px; margin-bottom: .9rem; border-radius: 99px; overflow: hidden; }
+    .bar span { flex: var(--p) 1 0%; background: var(--c); }
+    .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .85rem; color: var(--muted); }
+    .legend li::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: .4rem; border-radius: 50%; background: var(--c); }
+
+    /* Projetos: coluna flexível; margin-top:auto empurra o botão para o fim do card */
+    .project { display: flex; flex-direction: column; gap: .8rem; }
+    .project h3 { margin: 0; font-size: 1.3rem; }
+    .repo { font-family: var(--mono); font-size: .85rem; color: var(--accent); }
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tags li { font-size: .78rem; padding: .15rem .65rem; border: 1px solid rgba(255, 213, 74, .4); border-radius: 99px; color: var(--gold); }
+    .project .btn { margin-top: auto; align-self: flex-start; }
+    .more { margin-top: 1.5rem; text-align: center; }
+    .more a { color: var(--accent); text-decoration: underline; }
+
+    /* ===== 7. FORMULÁRIO ===== */
+    .field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+    label { font-weight: 600; font-size: .9rem; }
+    input, textarea { font: inherit; padding: .75rem 1rem; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; transition: border-color var(--speed), box-shadow var(--speed); }
+    input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(126, 240, 255, .2); }
+    textarea { min-height: 130px; resize: vertical; }
+    .invalid { border-color: var(--error); }  /* o JS coloca esta classe nos campos com erro */
+    .error { color: var(--error); font-size: .82rem; min-height: 1.2em; }
+    .status-msg { margin-top: 1rem; font-weight: 600; }
+    .status-msg.err { color: var(--error); }
+    .status-msg.ok { color: var(--ok); }
+    footer { padding: 2rem 0; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; }
+    .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+    .foot a:hover { color: var(--primary); }
+
+    /* ===== 8. MEDIA QUERIES =====
+       MOBILE FIRST: tudo acima já funciona no celular. A partir de 768px (tablet/PC) só AJUSTAMOS o que muda:
+       menu em linha, foto à direita e grids com 2 ou 3 colunas. */
+    @media (min-width: 768px) {
+      .menu-btn { display: none; }
+      .nav-links { display: flex; position: static; flex-direction: row; padding: 0; background: none; border: 0; }
+      /* row-reverse inverte a ordem VISUAL: no HTML a foto vem primeiro (bom no celular), mas aqui ela fica à direita */
+      .hero-inner { flex-direction: row-reverse; justify-content: space-between; text-align: left; }
+      .headline { margin-inline: 0; }
+      .pills, .actions { justify-content: flex-start; }
+      .avatar { width: 230px; height: 230px; }
+      .about-grid, .projects-grid, .contact-grid { grid-template-columns: 1fr 1fr; }
+      .skill-groups { grid-template-columns: repeat(3, 1fr); }
+      .langs { grid-column: 1 / -1; } /* o card de linguagens ocupa a linha inteira */
+    }
+    /* Respeita quem pediu "menos animação" nas configurações do sistema */
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+
+<body>
+  <!-- <header> = cabeçalho do site. <nav> = bloco de links de navegação (ajuda leitores de tela e o Google). -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#inicio" class="logo">&lt;MT /&gt;</a>
+      <nav aria-label="Menu principal">
+        <!-- ul/li = lista de links. href="#sobre" leva até o elemento que tem id="sobre" -->
+        <ul id="nav-links" class="nav-links">
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#habilidades">Habilidades</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="tools">
+        <button id="tema-btn" class="icon-btn" aria-label="Ativar tema claro">☀️</button>
+        <!-- Botão "hambúrguer": só aparece no celular (CSS). O JavaScript abre e fecha o menu. -->
+        <button id="menu-btn" class="icon-btn menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- <main> = conteúdo principal (só pode existir UM por página).
+       Cada <section> agrupa um assunto e normalmente tem um título (h2). -->
+  <main>
+
+    <!-- HERO: a primeira coisa que o visitante vê -->
+    <section id="inicio" class="hero">
+      <div class="container hero-inner">
+        <div class="avatar-ring">
+          <!-- alt descreve a imagem (acessibilidade). width/height evitam a página "pular" enquanto a foto carrega.
+               Se a foto do GitHub não carregar, o JavaScript troca por uma cópia embutida no arquivo (veja o final do script). -->
+          <img id="avatar" class="avatar" src="https://avatars.githubusercontent.com/u/225286557?v=4&amp;s=460" alt="Foto de perfil de Marco Túlio" width="230" height="230" fetchpriority="high">
+        </div>
+        <div>
+          <p class="greeting">Olá, eu sou</p>
+          <!-- h1 = título principal. Use só UM por página (importante para SEO). -->
+          <h1>Marco Túlio</h1>
+          <p class="headline">Estudante de Técnico em Informática &amp; Desenvolvedor Web Júnior</p>
+          <!-- aria-hidden: esta linha é só efeito visual, o leitor de tela ignora. O JS escreve dentro do #digitando. -->
+          <p class="typing" aria-hidden="true"><span class="prompt">&gt;</span> <span id="digitando"></span><span class="cursor"></span></p>
+          <div class="pills">
+            <span class="pill on">Aberto a oportunidades</span>
+            <span class="pill">Brasil</span>
+          </div>
+          <div class="actions">
+            <a href="#projetos" class="btn btn-primary">Ver projetos</a>
+            <!-- target="_blank" abre em nova aba; rel="noopener noreferrer" é uma proteção de segurança -->
+            <a href="https://github.com/marcodeum" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Ver GitHub</a>
+          </div>
+        </div>
+      </div>
+      <!-- SVG = desenho feito com código. Esta onda repete o banner do seu perfil do GitHub. -->
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <defs><linearGradient id="grad-onda"><stop offset="0"/><stop offset="1"/></linearGradient></defs>
+        <path fill="url(#grad-onda)" d="M0 60 C240 10 480 110 720 70 S1200 20 1440 70 V120 H0 Z"/>
+      </svg>
+    </section>
+
+    <!-- SOBRE MIM & FORMAÇÃO -->
+    <section id="sobre">
+      <div class="container">
+        <h2 class="section-title">Sobre mim &amp; Formação</h2>
+        <div class="grid about-grid">
+          <div class="stack">
+            <h3 class="sub">Sobre mim</h3>
+            <!-- <article> = conteúdo independente, que faria sentido sozinho (um card, um post...) -->
+            <article class="card about">
+              <p>Sou estudante de Técnico em Informática e Desenvolvedor Júnior, com foco em desenvolvimento de software e web. Tenho experiência com <strong>Java, C#, PHP, HTML, CSS</strong>, e bancos de dados relacionais. Busco evoluir constantemente através de estudos, projetos práticos e desafios, visando construir uma carreira sólida em engenharia de software. <strong>Pretendo cursar Engenharia de Software.</strong></p>
+            </article>
+            <h3 class="sub">Conquistas</h3>
+            <article class="card edu">
+              <span aria-hidden="true">🏅</span>
+              <div><h3>Medalha de Ouro</h3><p class="muted">Olimpíada Brasileira de Língua Inglesa (OBLI)</p></div>
+            </article>
+          </div>
+          <div class="stack">
+            <h3 class="sub">Formação</h3>
+            <article class="card edu">
+              <span aria-hidden="true">🎓</span>
+              <div><h3>Técnico em TI</h3><p class="muted">SENAI <span class="pill on">Em andamento</span></p></div>
+            </article>
+            <article class="card edu">
+              <span aria-hidden="true">💻</span>
+              <div><h3>Programação com Java e C# .NET</h3><p class="muted">SENAI</p></div>
+            </article>
+            <article class="card edu">
+              <span aria-hidden="true">🧩</span>
+              <div><h3>Metodologias de Desenvolvimento de Software</h3><p class="muted">SENAI</p></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABILIDADES: badges por área + barra com os dados reais do seu GitHub -->
+    <section id="habilidades">
+      <div class="container">
+        <h2 class="section-title">Habilidades</h2>
+        <div class="grid skill-groups">
+          <!-- style="--c:#e34f26" cria a variável --c SÓ neste elemento; o CSS usa var(--c) para pintar a bolinha. -->
+          <article class="card">
+            <h3>Front-end</h3>
+            <ul class="badges">
+              <li class="badge" style="--c:#e34f26">HTML</li>
+              <li class="badge" style="--c:#1572b6">CSS</li>
+              <li class="badge" style="--c:#f7df1e">JavaScript</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Back-end</h3>
+            <ul class="badges">
+              <li class="badge" style="--c:#8993be">PHP</li>
+              <li class="badge" style="--c:#f89820">Java</li>
+              <li class="badge" style="--c:#9b4f96">C#</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Banco de dados</h3>
+            <ul class="badges">
+              <li class="badge" style="--c:#00a3c4">MySQL</li>
+            </ul>
+          </article>
+          <!-- Cada span recebe sua porcentagem em --p. Os números vêm das estatísticas do GitHub: atualize quando quiser. -->
+          <article class="card langs">
+            <h3>Linguagens mais usadas nos meus repositórios</h3>
+            <div class="bar" role="img" aria-label="Java 68,88%, PHP 11,12%, HTML 10,24%, C# 6,45%, CSS 3,32%">
+              <span style="--p:68.88;--c:#f89820"></span>
+              <span style="--p:11.12;--c:#8993be"></span>
+              <span style="--p:10.24;--c:#e34f26"></span>
+              <span style="--p:6.45;--c:#9b4f96"></span>
+              <span style="--p:3.32;--c:#1572b6"></span>
+            </div>
+            <ul class="legend">
+              <li style="--c:#f89820">Java 68,88%</li>
+              <li style="--c:#8993be">PHP 11,12%</li>
+              <li style="--c:#e34f26">HTML 10,24%</li>
+              <li style="--c:#9b4f96">C# 6,45%</li>
+              <li style="--c:#1572b6">CSS 3,32%</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJETOS: um card para cada projeto -->
+    <section id="projetos">
+      <div class="container">
+        <h2 class="section-title">Projetos em destaque</h2>
+        <div class="grid projects-grid">
+          <article class="card project">
+            <p class="repo"><span aria-hidden="true">🏨</span> marcodeum/hotel</p>
+            <h3>Sistema de Hotel</h3>
+            <p class="muted">Sistema para cadastro e reservas de hotel.</p>
+            <ul class="tags"><li>HTML5</li><li>CSS</li><li>PHP</li></ul>
+            <a class="btn btn-outline" href="https://github.com/marcodeum/hotel" target="_blank" rel="noopener noreferrer">Ver no GitHub</a>
+          </article>
+          <article class="card project">
+            <p class="repo"><span aria-hidden="true">🧠</span> marcodeum/anima-psico</p>
+            <h3>Anima Psico</h3>
+            <!-- EXERCÍCIO: troque o texto abaixo por uma descrição real do projeto e, se quiser,
+                 copie o bloco de tags (ul class="tags") do card ao lado para listar as tecnologias. -->
+            <p class="muted">Projeto prático da minha jornada em desenvolvimento de software. O código-fonte está disponível no repositório.</p>
+            <a class="btn btn-outline" href="https://github.com/marcodeum/anima-psico" target="_blank" rel="noopener noreferrer">Ver no GitHub</a>
+          </article>
+        </div>
+        <p class="more muted">Mais repositórios (trabalhos de POO, listas de exercícios) no <a href="https://github.com/marcodeum" target="_blank" rel="noopener noreferrer">meu perfil do GitHub</a>.</p>
+      </div>
+    </section>
+
+    <!-- CONTATO: a "ponte" para o Back-end -->
+    <section id="contato">
+      <div class="container">
+        <h2 class="section-title">Contato</h2>
+        <div class="grid contact-grid">
+          <div class="stack">
+            <p class="muted">Quer conversar sobre estágio, projetos ou estudos? Envie uma mensagem pelo formulário ou me chame pelo GitHub.</p>
+            <a class="btn btn-outline" href="https://github.com/marcodeum" target="_blank" rel="noopener noreferrer">github.com/marcodeum</a>
+          </div>
+
+          <!--
+            AULA DE BACK-END (leia com atenção!)
+            - method="POST": envia os dados dentro da requisição, sem mostrá-los na URL (o GET mostraria).
+            - action="processa_contato.php": é o arquivo PHP que vai RECEBER os dados no servidor (XAMPP).
+            - O atributo name é a "CHAVE" que o PHP usa na superglobal $_POST para capturar cada valor.
+              Exemplo: o input com name="email" chega no PHP assim:   $email = $_POST['email'];
+            - Sem o name, o campo NÃO é enviado ao servidor! O id serve para o label, o CSS e o JS; o name serve para o back-end.
+            - Para testar: coloque este arquivo em C:\xampp\htdocs\portfolio\, ligue o Apache no XAMPP
+              e abra http://localhost/portfolio/ (com duplo clique ou no GitHub Pages o PHP não roda, e o JS avisa).
+            - novalidate desliga a validação padrão do navegador, para usarmos a nossa, feita em JavaScript.
+          -->
+          <form id="contact-form" class="card" action="processa_contato.php" method="POST" novalidate>
+            <!-- label for="nome" se liga ao input id="nome": clicar no texto já foca o campo.
+                 aria-describedby liga o campo à mensagem de erro, para o leitor de tela ler. -->
+            <div class="field">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" maxlength="80" required aria-describedby="erro-nome">
+              <small class="error" id="erro-nome" aria-live="polite"></small>
+            </div>
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="email" maxlength="120" required aria-describedby="erro-email">
+              <small class="error" id="erro-email" aria-live="polite"></small>
+            </div>
+            <div class="field">
+              <label for="assunto">Assunto</label>
+              <input type="text" id="assunto" name="assunto" placeholder="Sobre o que quer falar?" maxlength="100" required aria-describedby="erro-assunto">
+              <small class="error" id="erro-assunto" aria-live="polite"></small>
+            </div>
+            <div class="field">
+              <label for="mensagem">Mensagem</label>
+              <textarea id="mensagem" name="mensagem" placeholder="Escreva sua mensagem..." maxlength="1000" required aria-describedby="erro-mensagem"></textarea>
+              <small class="error" id="erro-mensagem" aria-live="polite"></small>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+            <p id="form-status" class="status-msg" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- <footer> = rodapé do site -->
+  <footer>
+    <div class="container foot">
+      <p>© <span id="ano"></span> Marco Túlio. Feito com HTML, CSS e JavaScript puro.</p>
+      <a href="#inicio">Voltar ao topo</a>
+    </div>
+  </footer>
+
+  <!-- O script fica no FIM do body para o navegador já ter desenhado todos os elementos
+       que o JavaScript vai procurar (senão document.querySelector devolveria null). -->
+  <script>
+    // ===== 0. CONFIGURAÇÕES (edite aqui!) =====
+    // Para o formulário funcionar no GitHub Pages, coloque seu e-mail entre as aspas. Ex.: 'voce@gmail.com'
+    const EMAIL_CONTATO = '';
+
+    // ===== 1. SELEÇÃO DO DOM =====
+    // querySelector('#id') acha UM elemento (usa seletor CSS); const guarda o resultado numa variável.
+    const raiz      = document.documentElement;              // a própria tag <html>
+    const temaBtn   = document.querySelector('#tema-btn');
+    const menuBtn   = document.querySelector('#menu-btn');
+    const navLinks  = document.querySelector('#nav-links');
+    const form      = document.querySelector('#contact-form');
+    const statusMsg = document.querySelector('#form-status');
+    const avatar    = document.querySelector('#avatar');
+    // querySelectorAll acha VÁRIOS elementos. 'a[href^="#"]' = links cujo href COMEÇA com "#" (links internos).
+    const linksInternos = document.querySelectorAll('a[href^="#"]');
+    const campos        = form.querySelectorAll('input, textarea');
+    // matchMedia pergunta ao sistema: a pessoa pediu menos animação? (true ou false)
+    const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ===== 2. TEMA CLARO / ESCURO =====
+    function aplicarTema(tema) {
+      raiz.dataset.theme = tema;                                   // muda data-theme na tag <html>: o CSS faz o resto
+      temaBtn.textContent = tema === 'dark' ? '☀️' : '🌙';        // ícone mostra o tema para onde você vai
+      temaBtn.setAttribute('aria-label', tema === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro');
+    }
+    let temaAtual = 'dark';
+    try { temaAtual = localStorage.getItem('tema') || 'dark'; } catch (erro) {} // localStorage lembra a escolha no navegador
+    aplicarTema(temaAtual);
+    temaBtn.addEventListener('click', () => {                      // quando clicar no botão...
+      temaAtual = temaAtual === 'dark' ? 'light' : 'dark';         // ...inverte o tema
+      aplicarTema(temaAtual);
+      try { localStorage.setItem('tema', temaAtual); } catch (erro) {} // ...e guarda a escolha
+    });
+
+    // ===== 3. MENU MOBILE =====
+    function fecharMenu() {
+      navLinks.classList.remove('open');                           // tira a classe que mostra o menu
+      menuBtn.setAttribute('aria-expanded', false);                // avisa leitores de tela
+    }
+    menuBtn.addEventListener('click', () => {
+      const aberto = navLinks.classList.toggle('open');            // toggle liga/desliga a classe e devolve true se ligou
+      menuBtn.setAttribute('aria-expanded', aberto);
+    });
+    document.addEventListener('keydown', (evento) => {            // qualquer tecla apertada na página...
+      if (evento.key === 'Escape') fecharMenu();                   // ...se for Esc, fecha o menu
+    });
+
+    // ===== 4. ROLAGEM SUAVE (SMOOTH SCROLL) =====
+    linksInternos.forEach((link) => {                              // forEach repete o código para CADA link interno
+      link.addEventListener('click', (evento) => {                 // ao clicar no link...
+        const destino = document.querySelector(link.getAttribute('href')); // pega o href (ex.: "#projetos") e acha o elemento
+        if (!destino) return;                                      // id não existe? não faz nada
+        evento.preventDefault();                                   // cancela o "pulo" padrão do navegador
+        destino.scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' }); // rola até o destino
+        fecharMenu();                                              // fecha o menu mobile
+      });
+    });
+
+    // ===== 5. LINK ATIVO NO MENU (IntersectionObserver) =====
+    // O "observador" avisa quando uma seção cruza o MEIO da tela (rootMargin recorta o centro da janela).
+    const menuItens = document.querySelectorAll('.nav-links a');
+    const vigia = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;                       // só nos interessa quem ENTROU na faixa do meio
+        menuItens.forEach((a) => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entrada.target.id); // marca só o link da seção atual
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section').forEach((secao) => vigia.observe(secao)); // observa cada seção
+
+    // ===== 6. EFEITO DE DIGITAÇÃO NO HERO =====
+    const frases = ['criando sites com HTML, CSS e JavaScript', 'programando em Java e C#', 'estudando PHP e MySQL', 'rumo à Engenharia de Software'];
+    const digitando = document.querySelector('#digitando');
+    let fraseAtual = 0, letras = 0, apagando = false;              // estado: qual frase, quantas letras aparecem, se está apagando
+    function digitar() {
+      const frase = frases[fraseAtual];
+      letras += apagando ? -1 : 1;                                 // soma ou tira uma letra
+      digitando.textContent = frase.slice(0, letras);              // slice(0, n) pega as n primeiras letras
+      let espera = apagando ? 35 : 80;                             // velocidade (ms): apagar é mais rápido
+      if (!apagando && letras === frase.length) { apagando = true; espera = 1600; }   // frase completa: espera e começa a apagar
+      else if (apagando && letras === 0) { apagando = false; fraseAtual = (fraseAtual + 1) % frases.length; espera = 350; } // apagou tudo: próxima frase
+      setTimeout(digitar, espera);                                 // chama a si mesma de novo depois de "espera" ms
+    }
+    if (reduzMovimento) digitando.textContent = frases[0]; else digitar(); // sem animação para quem pediu menos movimento
+
+    // ===== 7. VALIDAÇÃO DO FORMULÁRIO =====
+    // Cada regra devolve true (campo OK) ou um texto de erro. A chave é o MESMO name usado no HTML e no PHP!
+    const regras = {
+      nome:     (v) => v.length >= 3 || 'Digite seu nome (mínimo 3 letras).',
+      email:    (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Digite um e-mail válido, como voce@exemplo.com.',
+      assunto:  (v) => v !== '' || 'Informe o assunto da mensagem.',
+      mensagem: (v) => v.length >= 10 || 'Escreva pelo menos 10 caracteres.'
+    };
+
+    function validarCampo(campo) {                                 // valida UM campo e devolve true se estiver OK
+      const valor = campo.value.trim();                            // trim() tira espaços do começo e do fim
+      const resultado = regras[campo.name](valor);                 // campo.name = "email" -> regras["email"]
+      const ok = resultado === true;
+      document.querySelector('#erro-' + campo.name).textContent = ok ? '' : resultado; // mostra (ou limpa) o erro
+      campo.classList.toggle('invalid', !ok);                      // 2º argumento true/false decide se a classe fica
+      campo.setAttribute('aria-invalid', !ok);                     // avisa leitores de tela
+      return ok;
+    }
+    function mostrarStatus(texto, tipo) {                          // escreve a mensagem abaixo do botão (tipo: 'ok' ou 'err')
+      statusMsg.textContent = texto;
+      statusMsg.className = 'status-msg ' + tipo;
+    }
+
+    campos.forEach((campo) => {
+      campo.addEventListener('blur', () => validarCampo(campo));   // valida ao SAIR do campo
+      campo.addEventListener('input', () => {                      // se já estava com erro, revalida enquanto DIGITA
+        if (campo.classList.contains('invalid')) validarCampo(campo);
+      });
+    });
+
+    // O PHP só roda em um servidor (XAMPP). No GitHub Pages (site estático) ou abrindo o arquivo com duplo clique, o POST falharia.
+    const servidorPHP = location.protocol.startsWith('http') && !location.hostname.endsWith('github.io');
+
+    form.addEventListener('submit', (evento) => {                  // 'submit' dispara ao clicar em "Enviar mensagem"
+      let tudoCerto = true;
+      campos.forEach((campo) => { if (!validarCampo(campo)) tudoCerto = false; });
+
+      if (!tudoCerto) {
+        evento.preventDefault();                                   // IMPEDE o envio enquanto houver erro
+        mostrarStatus('Corrija os campos destacados.', 'err');
+        form.querySelector('.invalid').focus();                    // leva o cursor ao primeiro campo com erro
+        return;
+      }
+      if (servidorPHP) {                                           // localhost/XAMPP: deixa o navegador enviar o POST para o PHP
+        mostrarStatus('Enviando...', 'ok');
+        return;
+      }
+      evento.preventDefault();                                     // sem PHP aqui: nós mesmos cuidamos do envio
+      if (EMAIL_CONTATO) {
+        const dados = new FormData(form);                          // FormData lê os campos pelo name, igual ao $_POST do PHP
+        const corpo = 'Nome: ' + dados.get('nome') + '\nE-mail: ' + dados.get('email') + '\n\n' + dados.get('mensagem');
+        location.href = 'mailto:' + EMAIL_CONTATO + '?subject=' + encodeURIComponent(dados.get('assunto')) + '&body=' + encodeURIComponent(corpo);
+        mostrarStatus('Abrindo seu aplicativo de e-mail...', 'ok');
+      } else {
+        mostrarStatus('O envio por PHP só funciona em servidor (XAMPP). Por aqui, me chame pelo GitHub!', 'err');
+      }
+    });
+
+    // ===== 8. ANO AUTOMÁTICO NO RODAPÉ =====
+    // new Date().getFullYear() devolve o ano atual; textContent troca o texto do elemento.
+    document.querySelector('#ano').textContent = new Date().getFullYear();
+
+    // ===== 9. FOTO DE PERFIL: PLANO B =====
+    // Se a foto do GitHub não carregar (sem internet, por exemplo), usamos esta cópia da sua foto embutida no arquivo.
+    // É base64: a imagem escrita como texto. Não precisa estudar esta linha enorme!
+    const fotoReserva = 'data:image/webp;base64,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';
+    const trocarFoto = () => { avatar.src = fotoReserva; };
+    avatar.addEventListener('error', trocarFoto);                  // se a foto falhar daqui para frente
+    if (avatar.complete && avatar.naturalWidth === 0) trocarFoto(); // ou se já tinha falhado antes de o script rodar
+  </script>
+</body>
+</html>
