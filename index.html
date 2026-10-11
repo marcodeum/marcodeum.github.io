@@ -1,583 +1,715 @@
-<!DOCTYPE html>
-<!-- AULA 1: o DOCTYPE avisa ao navegador que este arquivo é HTML5. -->
-<!-- data-theme="dark": o JavaScript troca este atributo para mudar o tema (veja o CSS e o JS). -->
+<!doctype html>
 <html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="UTF-8"> <!-- UTF-8: acentos (ç, ã, é) aparecem certinho -->
-  <!-- viewport: essencial no MOBILE FIRST. Sem ela o celular "encolhe" o site -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marco Túlio | Desenvolvedor Web Júnior</title>
-  <meta name="description" content="Portfólio de Marco Túlio, estudante de Técnico em Informática e desenvolvedor web júnior. Projetos com Java, C#, PHP, HTML e CSS.">
-  <meta name="theme-color" content="#0a0d16">
-  <!-- Open Graph: a "prévia" do link quando você compartilha o site no WhatsApp, LinkedIn etc. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b12">
+  <meta name="description" content="Portfólio de Marco Túlio — Técnico em Informática em formação e Desenvolvedor Júnior. Projetos em Java, C#, PHP, tecnologias web e bancos de dados.">
+  <meta name="author" content="Marco Túlio">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Marco Túlio | Desenvolvedor Web Júnior">
-  <meta property="og:description" content="Estudante de Técnico em Informática e desenvolvedor web júnior. Veja meus projetos.">
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/225286557?v=4&amp;s=460">
-  <!-- Favicon (ícone da aba) desenhado em SVG dentro do próprio arquivo: nada de arquivo extra para subir no GitHub -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23ff4081'/><text x='32' y='43' font-size='30' font-weight='bold' font-family='sans-serif' text-anchor='middle' fill='%230a0d16'>MT</text></svg>">
-
+  <meta property="og:title" content="Marco Túlio — Portfólio de Desenvolvimento">
+  <meta property="og:description" content="Projetos, habilidades e trajetória de Marco Túlio na área de desenvolvimento de software.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/225286557?v=4&s=600">
+  <meta property="og:locale" content="pt_BR">
+  <title>Marco Túlio — Portfólio de Desenvolvimento</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ===== 1. VARIÁVEIS CSS =====
-       :root é o "topo" da página: toda variável (--nome) criada aqui vale no site inteiro.
-       Mudou uma cor? Muda em todo lugar que usa var(--nome). Isso é reaproveitar código! */
     :root {
-      --bg: #0a0d16;          /* fundo da página (azul-marinho, igual ao seu GitHub) */
-      --surface: #121626;     /* fundo dos cards */
-      --border: #252b45;      /* bordas */
-      --text: #e8ebf4;        /* texto principal */
-      --muted: #9aa3bd;       /* texto secundário */
-      --primary: #ff4081;     /* rosa de destaque */
-      --on-primary: #1a0610;  /* cor do texto SOBRE o rosa (contraste bom) */
-      --accent: #7ef0ff;      /* ciano de destaque */
-      --gold: #ffd54a;        /* amarelo das tags */
-      --ok: #3ddc84;          /* sucesso */
-      --error: #ff8a80;       /* erro */
-      --header-bg: rgba(10, 13, 22, .9);
-      --shadow: 0 6px 18px rgba(0, 0, 0, .3);
-      --wave-a: #12071a;      /* cores da onda do topo (banner do seu README) */
-      --wave-b: #b03a6b;
-      --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* fontes que já existem no computador */
-      --mono: ui-monospace, Consolas, "Courier New", monospace;
-      --radius: 14px;
-      --speed: .25s;          /* duração das transições */
-      color-scheme: dark;     /* avisa o navegador: campos e barras de rolagem escuros */
+      color-scheme: dark;
+      --bg: #0b0b12;
+      --bg-elevated: #10101a;
+      --surface: #141420;
+      --surface-2: #191927;
+      --surface-3: #202033;
+      --border: rgba(233, 231, 255, .095);
+      --border-strong: rgba(233, 231, 255, .16);
+      --text: #f6f5fc;
+      --text-soft: #c2bfd7;
+      --muted: #9592ad;
+      --primary: #ff438f;
+      --primary-strong: #ff2e83;
+      --primary-tint: rgba(255, 67, 143, .12);
+      --accent: #70eed2;
+      --accent-tint: rgba(112, 238, 210, .1);
+      --blue: #8d9bff;
+      --ok: #7de2a4;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .25);
+      --font: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "DM Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      --container: 1160px;
+      --radius: 22px;
+      --radius-sm: 13px;
+      --header: rgba(11, 11, 18, .78);
+      --focus: 0 0 0 3px rgba(112, 238, 210, .28);
     }
-    /* TEMA CLARO: o JS põe data-theme="light" na tag <html> e este bloco SOBRESCREVE só as variáveis que mudam.
-       Os componentes nem sabem que o tema mudou: é o poder das variáveis. */
     :root[data-theme="light"] {
-      --bg: #f6f7fb; --surface: #ffffff; --border: #dfe3ef;
-      --text: #151a2d; --muted: #566080;
-      --primary: #d81b60; --on-primary: #ffffff; --accent: #0b7285; --gold: #8a6500;
-      --ok: #1b873f; --error: #c62828;
-      --header-bg: rgba(246, 247, 251, .9); --shadow: 0 6px 18px rgba(21, 26, 45, .08);
-      --wave-a: #ffe3ee; --wave-b: #ff6f9f;
       color-scheme: light;
+      --bg: #f7f7fb;
+      --bg-elevated: #ffffff;
+      --surface: #ffffff;
+      --surface-2: #f0eff7;
+      --surface-3: #e8e7f2;
+      --border: rgba(30, 26, 58, .10);
+      --border-strong: rgba(30, 26, 58, .18);
+      --text: #171523;
+      --text-soft: #39364e;
+      --muted: #69657f;
+      --primary: #d92570;
+      --primary-strong: #c91b62;
+      --primary-tint: rgba(217, 37, 112, .09);
+      --accent: #087d6b;
+      --accent-tint: rgba(8, 125, 107, .08);
+      --blue: #5968d8;
+      --ok: #19844c;
+      --shadow: 0 22px 55px rgba(42, 34, 84, .09);
+      --header: rgba(247, 247, 251, .84);
+      --focus: 0 0 0 3px rgba(8, 125, 107, .2);
     }
-
-    /* ===== 2. RESET E BASE =====
-       box-sizing: border-box faz padding e borda ficarem DENTRO da largura do elemento (conta mais fácil). */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.65; }
-    a { color: inherit; text-decoration: none; transition: color var(--speed); }
-    ul { list-style: none; }
-    img { max-width: 100%; display: block; }
-    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; } /* foco visível para quem usa teclado */
-
-    /* min() escolhe o MENOR valor: 100% da tela menos 2rem de respiro, mas nunca mais que 1050px.
-       margin-inline:auto centraliza o bloco. */
-    .container { width: min(100% - 2rem, 1050px); margin-inline: auto; }
-    section { padding: 4.5rem 0; scroll-margin-top: 70px; } /* scroll-margin-top: o menu fixo não cobre o título ao rolar */
-    .section-title { font-size: clamp(1.7rem, 5vw, 2.1rem); letter-spacing: -.02em; margin-bottom: 2rem; }
-    .section-title::after { content: ""; display: block; width: 56px; height: 4px; margin-top: .5rem; border-radius: 4px; background: var(--primary); }
-    .muted { color: var(--muted); }
-
-    /* ===== 3. CABEÇALHO E MENU =====
-       position: sticky faz o menu "grudar" no topo enquanto você rola. */
-    .site-header { position: sticky; top: 0; z-index: 10; background: var(--header-bg); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
-    /* FLEXBOX: display:flex põe os filhos lado a lado; space-between os distribui pelas pontas; align-items centraliza na vertical. */
-    .nav { display: flex; justify-content: space-between; align-items: center; height: 64px; gap: 1rem; }
-    .logo { font-family: var(--mono); font-weight: 700; font-size: 1.2rem; color: var(--primary); }
-    .tools { display: flex; gap: .5rem; }
-    .icon-btn { background: none; border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 1.1rem; line-height: 1; padding: .5rem .65rem; cursor: pointer; transition: border-color var(--speed); }
-    .icon-btn:hover { border-color: var(--primary); }
-    /* No celular o menu começa escondido; o JS adiciona a classe .open para mostrá-lo. */
-    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; padding: 1rem; background: var(--surface); border-bottom: 1px solid var(--border); }
-    .nav-links.open { display: flex; }
-    .nav-links a { display: block; padding: .6rem .9rem; border-radius: 8px; color: var(--muted); transition: color var(--speed), background var(--speed); }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--border); } /* .active = seção que você está lendo (o JS marca) */
-
-    /* ===== 4. HERO (primeira tela) ===== */
-    .hero { position: relative; overflow: hidden; padding: 3rem 0 8rem; }
-    /* Flex em COLUNA no celular: foto em cima e texto embaixo, tudo centralizado. */
-    .hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2rem; }
-    .avatar-ring { padding: 5px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); box-shadow: 0 0 0 8px rgba(255, 64, 129, .12), 0 0 60px rgba(255, 64, 129, .28); }
-    .avatar { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); } /* object-fit:cover recorta sem distorcer */
-    .greeting { color: var(--muted); }
-    /* clamp(mínimo, ideal, máximo): o título cresce com a tela, mas respeita os limites */
-    h1 { font-size: clamp(2.6rem, 10vw, 4.4rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.05; }
-    .headline { color: var(--muted); font-size: 1.1rem; max-width: 34ch; margin: .6rem auto 1rem; }
-    .typing { font-family: var(--mono); color: var(--primary); min-height: 1.7em; margin-bottom: 1.2rem; }
-    .prompt { color: var(--accent); }
-    /* O cursor piscando é uma caixinha com animação (@keyframes define os "quadros") */
-    .cursor { display: inline-block; width: .55ch; height: 1.1em; margin-left: 2px; vertical-align: -.15em; background: var(--primary); animation: piscar 1s steps(1) infinite; }
-    @keyframes piscar { 50% { opacity: 0; } }
-    .pills { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-bottom: 1.6rem; }
-    .pill { display: inline-flex; align-items: center; gap: .5rem; padding: .2rem .8rem; border: 1px solid var(--border); border-radius: 99px; font-size: .85rem; color: var(--muted); }
-    .pill.on::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); } /* bolinha verde = disponível */
-    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
-    /* A onda no rodapé do hero lembra o banner do seu README no GitHub. Os stops usam as variáveis do tema. */
-    .wave { position: absolute; left: 0; bottom: 0; width: 100%; height: 90px; }
-    .wave stop:first-child { stop-color: var(--wave-a); }
-    .wave stop:last-child { stop-color: var(--wave-b); }
-
-    /* ===== 5. BOTÕES ===== */
-    .btn { display: inline-block; padding: .75rem 1.6rem; border: 2px solid var(--primary); border-radius: 99px; font: inherit; font-weight: 700; cursor: pointer; transition: transform var(--speed), box-shadow var(--speed), background var(--speed), color var(--speed); }
-    .btn-primary { background: var(--primary); color: var(--on-primary); }
-    .btn-outline { background: transparent; color: var(--primary); }
-    /* :hover = mouse em cima. translateY(-3px) sobe o botão 3px; a transition deixa o movimento suave. */
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 64, 129, .35); }
-    .btn-outline:hover { background: var(--primary); color: var(--on-primary); }
-
-    /* ===== 6. CARDS, GRID E LISTAS =====
-       CSS GRID: grid-template-columns define as colunas. No celular o grid tem 1 coluna só (padrão). */
-    .grid { display: grid; gap: 1.5rem; }
-    .stack { display: grid; gap: 1.25rem; align-content: start; }
-    .stack .btn { justify-self: start; } /* sem isso o botão esticaria até a largura toda */
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); transition: transform var(--speed), border-color var(--speed); }
-    .card:hover { transform: translateY(-4px); border-color: var(--primary); }
-    form.card:hover { transform: none; } /* o formulário não precisa "pular" */
-    .card h3 { margin-bottom: .8rem; }
-    .sub { font-size: 1.05rem; color: var(--accent); }
-    .about p { max-width: 65ch; } /* linhas curtas são mais fáceis de ler */
-    .edu { display: flex; align-items: center; gap: 1rem; }
-    .edu > span { font-size: 1.8rem; }
-    .edu h3 { margin-bottom: .2rem; font-size: 1.05rem; }
-
-    /* Skills: cada badge recebe a própria cor pela variável --c (escrita direto no HTML) */
-    .badges { display: flex; flex-wrap: wrap; gap: .6rem; }
-    .badge { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .9rem; border: 1px solid var(--border); border-radius: 99px; background: var(--bg); font-size: .9rem; font-weight: 600; transition: transform var(--speed), border-color var(--speed); }
-    .badge::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
-    .badge:hover { transform: translateY(-3px); border-color: var(--c); }
-    /* Barra de linguagens: cada pedaço usa flex-grow = porcentagem, e o navegador divide o espaço na proporção certa */
-    .bar { display: flex; gap: 2px; height: 12px; margin-bottom: .9rem; border-radius: 99px; overflow: hidden; }
-    .bar span { flex: var(--p) 1 0%; background: var(--c); }
-    .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .85rem; color: var(--muted); }
-    .legend li::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: .4rem; border-radius: 50%; background: var(--c); }
-
-    /* Projetos: coluna flexível; margin-top:auto empurra o botão para o fim do card */
-    .project { display: flex; flex-direction: column; gap: .8rem; }
-    .project h3 { margin: 0; font-size: 1.3rem; }
-    .repo { font-family: var(--mono); font-size: .85rem; color: var(--accent); }
-    .tags { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .tags li { font-size: .78rem; padding: .15rem .65rem; border: 1px solid rgba(255, 213, 74, .4); border-radius: 99px; color: var(--gold); }
-    .project .btn { margin-top: auto; align-self: flex-start; }
-    .more { margin-top: 1.5rem; text-align: center; }
-    .more a { color: var(--accent); text-decoration: underline; }
-
-    /* ===== 7. FORMULÁRIO ===== */
-    .field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
-    label { font-weight: 600; font-size: .9rem; }
-    input, textarea { font: inherit; padding: .75rem 1rem; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; transition: border-color var(--speed), box-shadow var(--speed); }
-    input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(126, 240, 255, .2); }
-    textarea { min-height: 130px; resize: vertical; }
-    .invalid { border-color: var(--error); }  /* o JS coloca esta classe nos campos com erro */
-    .error { color: var(--error); font-size: .82rem; min-height: 1.2em; }
-    .status-msg { margin-top: 1rem; font-weight: 600; }
-    .status-msg.err { color: var(--error); }
-    .status-msg.ok { color: var(--ok); }
-    footer { padding: 2rem 0; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; }
-    .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
-    .foot a:hover { color: var(--primary); }
-
-    /* ===== 8. MEDIA QUERIES =====
-       MOBILE FIRST: tudo acima já funciona no celular. A partir de 768px (tablet/PC) só AJUSTAMOS o que muda:
-       menu em linha, foto à direita e grids com 2 ou 3 colunas. */
-    @media (min-width: 768px) {
-      .menu-btn { display: none; }
-      .nav-links { display: flex; position: static; flex-direction: row; padding: 0; background: none; border: 0; }
-      /* row-reverse inverte a ordem VISUAL: no HTML a foto vem primeiro (bom no celular), mas aqui ela fica à direita */
-      .hero-inner { flex-direction: row-reverse; justify-content: space-between; text-align: left; }
-      .headline { margin-inline: 0; }
-      .pills, .actions { justify-content: flex-start; }
-      .avatar { width: 230px; height: 230px; }
-      .about-grid, .projects-grid, .contact-grid { grid-template-columns: 1fr 1fr; }
-      .skill-groups { grid-template-columns: repeat(3, 1fr); }
-      .langs { grid-column: 1 / -1; } /* o card de linguagens ocupa a linha inteira */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 16px/1.7 var(--font);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      transition: background-color .22s ease, color .22s ease;
     }
-    /* Respeita quem pediu "menos animação" nas configurações do sistema */
-    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    body::before {
+      position: fixed; inset: 0; z-index: -2; content: ""; pointer-events: none;
+      background-image: linear-gradient(rgba(140, 136, 180, .028) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 136, 180, .028) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+    body::after {
+      position: absolute; z-index: -1; content: ""; pointer-events: none;
+      top: -240px; left: 44%; width: 650px; height: 600px;
+      background: radial-gradient(ellipse, rgba(255, 67, 143, .105), transparent 67%);
+      filter: blur(8px);
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    img, svg { display: block; }
+    img { max-width: 100%; }
+    ::selection { color: #fff; background: rgba(255, 67, 143, .72); }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: none; box-shadow: var(--focus); }
+    .skip-link { position: fixed; top: 10px; left: 10px; z-index: 1000; transform: translateY(-150%); background: var(--accent); color: #07110f; padding: .75rem 1rem; border-radius: 10px; font-weight: 800; }
+    .skip-link:focus { transform: translateY(0); }
+    .container { width: min(var(--container), calc(100% - 48px)); margin-inline: auto; }
+    .reading-progress { position: fixed; inset: 0 auto auto 0; height: 3px; width: 100%; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, var(--primary), var(--accent)); z-index: 300; pointer-events: none; }
+    .site-header { position: sticky; top: 0; z-index: 200; background: var(--header); border-bottom: 1px solid var(--border); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; flex-shrink: 0; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--primary); color: #fff; font-size: 1.12rem; font-weight: 800; box-shadow: 0 8px 26px rgba(255, 67, 143, .2); }
+    .brand-name { font-size: 1.02rem; }
+    .brand-name span { color: var(--primary); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-links { display: flex; align-items: center; gap: 5px; margin: 0; padding: 0; list-style: none; }
+    .nav-links a { display: inline-flex; align-items: center; min-height: 42px; padding: 0 13px; border-radius: 10px; color: var(--muted); font-size: .88rem; font-weight: 700; transition: color .18s ease, background .18s ease; }
+    .nav-links a:hover, .nav-links a[aria-current="location"] { color: var(--text); background: var(--surface-2); }
+    .icon-button { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 1px solid var(--border); border-radius: 12px; color: var(--text-soft); background: var(--surface); cursor: pointer; transition: border-color .18s ease, transform .18s ease, background .18s ease; }
+    .icon-button:hover { transform: translateY(-1px); border-color: var(--border-strong); background: var(--surface-2); }
+    .icon-button svg { width: 19px; height: 19px; }
+    .menu-button { display: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: .16em; font: 500 .72rem/1.4 var(--mono); }
+    .eyebrow::before { content: ""; display: inline-block; width: 22px; height: 1px; background: currentColor; }
+    .hero { position: relative; padding: clamp(70px, 9vw, 116px) 0 clamp(75px, 9vw, 120px); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr); gap: clamp(40px, 7vw, 90px); align-items: center; }
+    .hero-copy { position: relative; z-index: 1; }
+    .hero h1 { max-width: 760px; margin: 23px 0 16px; font-size: clamp(3rem, 6.3vw, 5.8rem); font-weight: 800; letter-spacing: -.075em; line-height: 1.02; }
+    .hero h1 .highlight { display: inline-block; color: var(--primary); position: relative; }
+    .hero h1 .highlight::after { content: ""; position: absolute; left: 3px; bottom: 2px; width: calc(100% - 5px); height: 7px; border-radius: 8px; background: var(--primary); opacity: .18; transform: skewX(-20deg); }
+    .hero-subtitle { max-width: 650px; margin: 0; color: var(--text-soft); font-size: clamp(1.12rem, 2vw, 1.38rem); line-height: 1.65; font-weight: 500; letter-spacing: -.025em; }
+    .hero-description { max-width: 590px; margin: 18px 0 0; color: var(--muted); font-size: .98rem; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px; border: 1px solid transparent; border-radius: 12px; font-size: .9rem; font-weight: 800; transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease; cursor: pointer; }
+    .button:hover { transform: translateY(-2px); }
+    .button svg { width: 17px; height: 17px; }
+    .button-primary { color: #fff; background: var(--primary); box-shadow: 0 8px 24px rgba(255, 67, 143, .2); }
+    .button-primary:hover { background: var(--primary-strong); box-shadow: 0 12px 30px rgba(255, 67, 143, .27); }
+    .button-secondary { color: var(--text); border-color: var(--border-strong); background: var(--surface); }
+    .button-secondary:hover { border-color: var(--primary); background: var(--surface-2); }
+    .quick-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 15px 21px; margin-top: 27px; color: var(--muted); font-size: .83rem; }
+    .quick-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .quick-meta svg { width: 16px; height: 16px; color: var(--accent); }
+    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 14%, transparent); }
+
+    .editor-wrap { position: relative; min-width: 0; }
+    .editor-glow { position: absolute; inset: 12% -8% -5% 9%; border-radius: 40px; background: linear-gradient(135deg, rgba(255, 67, 143, .22), rgba(113, 105, 255, .14), rgba(112, 238, 210, .10)); filter: blur(45px); opacity: .75; pointer-events: none; }
+    .editor { position: relative; overflow: hidden; border: 1px solid var(--border-strong); border-radius: 20px; background: color-mix(in srgb, var(--surface) 94%, transparent); box-shadow: var(--shadow); transform: rotate(.6deg); }
+    .editor-top { min-height: 56px; display: flex; align-items: center; gap: 8px; padding: 0 19px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+    .window-dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5e57; }
+    .window-dot:nth-child(2) { background: #febc2e; }
+    .window-dot:nth-child(3) { background: #28c840; }
+    .editor-file { margin-left: 10px; color: var(--muted); font: 400 .77rem var(--mono); }
+    .editor-body { padding: 25px 23px 28px; overflow: hidden; }
+    .editor-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; color: var(--muted); font: 400 .7rem var(--mono); }
+    .editor-label span:last-child { color: var(--accent); }
+    .code-lines { margin: 0; padding: 0; list-style: none; font: 400 clamp(.72rem, 1.1vw, .84rem)/2.25 var(--mono); white-space: nowrap; overflow: auto; }
+    .code-lines li { display: grid; grid-template-columns: 25px minmax(0, 1fr); gap: 15px; }
+    .line-number { color: #6c6988; text-align: right; user-select: none; }
+    .code-indent { padding-left: 18px; }
+    .code-pink { color: var(--primary); }
+    .code-yellow { color: #edc879; }
+    .code-cyan { color: var(--accent); }
+    .code-purple { color: #b8a3ff; }
+    .code-muted { color: #8885a5; }
+    .editor-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 19px; border-top: 1px solid var(--border); color: var(--muted); font: 400 .7rem var(--mono); }
+    .editor-footer span { display: inline-flex; align-items: center; gap: 7px; }
+    .editor-footer .tiny-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+    .trust-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 48%, transparent); }
+    .trust-inner { min-height: 86px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .trust-label { color: var(--muted); font-size: .82rem; font-weight: 700; }
+    .tech-list { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 9px; }
+    .tech-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 9px; padding: 7px 11px; background: var(--surface); color: var(--text-soft); font: 400 .76rem var(--mono); }
+    .tech-pill::before { width: 6px; height: 6px; border-radius: 50%; background: var(--pill-color, var(--primary)); content: ""; }
+
+    section.content-section { padding: clamp(76px, 9vw, 116px) 0; }
+    .section-heading { max-width: 680px; margin-bottom: 38px; }
+    .section-heading .eyebrow { margin-bottom: 13px; }
+    .section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.15rem); line-height: 1.13; letter-spacing: -.06em; font-weight: 800; }
+    .section-heading p { max-width: 620px; margin: 15px 0 0; color: var(--muted); font-size: .98rem; }
+    .about-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr); gap: 19px; align-items: stretch; }
+    .surface-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: 0 10px 35px rgba(0,0,0,.045); }
+    .about-main { padding: clamp(24px, 3.4vw, 39px); }
+    .about-main h3, .learning-card h3 { margin: 0 0 12px; font-size: 1.2rem; letter-spacing: -.03em; }
+    .about-main p { margin: 0 0 15px; color: var(--muted); font-size: .95rem; }
+    .about-main p:last-of-type { margin-bottom: 0; }
+    .about-main strong { color: var(--text); font-weight: 800; }
+    .about-footer { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 23px; padding-top: 21px; border-top: 1px solid var(--border); }
+    .soft-tag { display: inline-flex; align-items: center; gap: 7px; color: var(--text-soft); background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; font-size: .76rem; font-weight: 700; }
+    .soft-tag svg { width: 14px; height: 14px; color: var(--accent); }
+    .learning-card { display: flex; flex-direction: column; padding: clamp(24px, 3.4vw, 34px); background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--primary-tint) 40%, var(--surface))); }
+    .learning-top { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+    .learning-icon { display: grid; place-items: center; width: 49px; height: 49px; flex: 0 0 49px; border: 1px solid rgba(255, 67, 143, .22); border-radius: 15px; background: var(--primary-tint); color: var(--primary); }
+    .learning-icon svg { width: 23px; height: 23px; }
+    .learning-top p { margin: 0; color: var(--muted); font-size: .75rem; }
+    .learning-top h3 { margin: 0; font-size: 1.02rem; }
+    .timeline { position: relative; display: grid; gap: 18px; margin-top: auto; }
+    .timeline-item { position: relative; display: grid; grid-template-columns: 18px minmax(0,1fr); gap: 13px; }
+    .timeline-marker { position: relative; width: 13px; height: 13px; margin-top: 5px; border: 2px solid var(--primary); border-radius: 50%; background: var(--surface); }
+    .timeline-item:not(:last-child) .timeline-marker::after { position: absolute; content: ""; left: 4px; top: 11px; height: calc(100% + 19px); border-left: 1px solid var(--border-strong); }
+    .timeline-item h4 { margin: 0; font-size: .9rem; line-height: 1.45; }
+    .timeline-item p { margin: 4px 0 0; color: var(--muted); font-size: .8rem; }
+    .timeline-item .current { display: inline-block; margin-left: 5px; padding: 2px 7px; border-radius: 6px; background: var(--accent-tint); color: var(--accent); font-size: .65rem; font-weight: 800; vertical-align: 2px; }
+    .award-row { display: flex; align-items: center; gap: 12px; margin-top: 23px; padding: 15px; border: 1px solid var(--border); border-radius: 13px; background: color-mix(in srgb, var(--surface) 74%, transparent); }
+    .award-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: rgba(237, 200, 121, .12); color: #edc879; flex: 0 0 38px; }
+    .award-icon svg { width: 19px; height: 19px; }
+    .award-row strong { display: block; font-size: .81rem; }
+    .award-row span { display: block; color: var(--muted); font-size: .7rem; line-height: 1.5; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 15px; }
+    .skill-card { min-height: 194px; padding: 22px; border: 1px solid var(--border); border-radius: 17px; background: var(--surface); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+    .skill-card:hover { transform: translateY(-3px); border-color: var(--border-strong); background: var(--surface-2); }
+    .skill-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 17px; border: 1px solid var(--border); border-radius: 12px; color: var(--skill-color, var(--primary)); background: var(--surface-2); }
+    .skill-icon svg { width: 20px; height: 20px; }
+    .skill-card h3 { margin: 0 0 10px; font-size: .98rem; letter-spacing: -.025em; }
+    .skill-card p { margin: 0; color: var(--muted); font-size: .81rem; line-height: 1.7; }
+    .tools-line { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 21px; }
+    .tools-line .soft-tag { padding: 7px 10px; }
+
+    .projects-intro { display: flex; align-items: end; justify-content: space-between; gap: 26px; margin-bottom: 30px; }
+    .projects-intro .section-heading { margin-bottom: 0; }
+    .project-count { flex: 0 0 auto; color: var(--muted); font: 400 .76rem var(--mono); padding-bottom: 6px; }
+    .project-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 24px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-button { min-height: 39px; padding: 0 14px; color: var(--muted); border: 1px solid var(--border); border-radius: 10px; background: var(--surface); font-size: .8rem; font-weight: 800; cursor: pointer; transition: all .18s ease; }
+    .filter-button:hover { color: var(--text); border-color: var(--border-strong); }
+    .filter-button[aria-pressed="true"] { color: #fff; border-color: var(--primary); background: var(--primary); }
+    .project-search { position: relative; flex: 0 1 255px; }
+    .project-search svg { position: absolute; top: 50%; left: 13px; width: 16px; height: 16px; color: var(--muted); transform: translateY(-50%); pointer-events: none; }
+    .project-search input { width: 100%; height: 40px; padding: 0 13px 0 39px; color: var(--text); border: 1px solid var(--border); border-radius: 10px; outline: none; background: var(--surface); font-size: .82rem; }
+    .project-search input::placeholder { color: var(--muted); }
+    .project-search input:focus { border-color: var(--accent); box-shadow: var(--focus); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 17px; align-items: stretch; }
+    .project-card { position: relative; display: flex; min-width: 0; flex-direction: column; padding: 23px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; overflow: hidden; }
+    .project-card::before { position: absolute; top: 0; left: 0; right: 0; height: 2px; content: ""; background: linear-gradient(90deg, var(--project-color, var(--primary)), transparent 76%); opacity: .75; }
+    .project-card:hover { transform: translateY(-4px); border-color: var(--border-strong); box-shadow: var(--shadow); }
+    .project-card[hidden] { display: none; }
+    .project-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 19px; }
+    .project-mark { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid color-mix(in srgb, var(--project-color, var(--primary)) 27%, transparent); border-radius: 14px; color: var(--project-color, var(--primary)); background: color-mix(in srgb, var(--project-color, var(--primary)) 10%, transparent); }
+    .project-mark svg { width: 24px; height: 24px; }
+    .repo-label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font: 400 .67rem var(--mono); }
+    .repo-label svg { width: 13px; height: 13px; }
+    .project-card h3 { margin: 0 0 9px; font-size: 1.05rem; letter-spacing: -.035em; }
+    .project-card p { margin: 0 0 20px; color: var(--muted); font-size: .84rem; line-height: 1.75; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; margin-bottom: 19px; }
+    .project-tags span { padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; color: var(--text-soft); background: var(--bg-elevated); font: 400 .66rem var(--mono); }
+    .project-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text); font-size: .8rem; font-weight: 800; transition: color .18s ease; }
+    .project-link:hover { color: var(--primary); }
+    .project-link svg { width: 16px; height: 16px; transition: transform .18s ease; }
+    .project-link:hover svg { transform: translate(2px, -2px); }
+    .empty-state { display: none; padding: 35px 20px; border: 1px dashed var(--border-strong); border-radius: 16px; text-align: center; color: var(--muted); }
+    .empty-state.is-visible { display: block; }
+    .github-cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 26px; padding: 19px 22px; border: 1px solid var(--border); border-radius: 15px; background: linear-gradient(100deg, var(--surface), color-mix(in srgb, var(--accent-tint) 34%, var(--surface))); }
+    .github-cta p { margin: 0; color: var(--muted); font-size: .83rem; }
+    .github-cta strong { color: var(--text); }
+    .github-cta a { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; color: var(--accent); font-size: .82rem; font-weight: 800; }
+    .github-cta a svg { width: 16px; height: 16px; }
+
+    .contact-section { padding-top: 28px !important; }
+    .contact-panel { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 35px; padding: clamp(28px, 5vw, 54px); border: 1px solid var(--border-strong); border-radius: 25px; background: linear-gradient(120deg, var(--surface) 28%, color-mix(in srgb, var(--primary-tint) 44%, var(--surface))); box-shadow: var(--shadow); }
+    .contact-panel::after { position: absolute; content: ""; right: -50px; bottom: -150px; width: 320px; height: 320px; border: 1px solid color-mix(in srgb, var(--primary) 23%, transparent); border-radius: 50%; box-shadow: 0 0 0 30px color-mix(in srgb, var(--primary) 3%, transparent), 0 0 0 60px color-mix(in srgb, var(--primary) 2%, transparent); pointer-events: none; }
+    .contact-copy { position: relative; z-index: 1; max-width: 650px; }
+    .contact-copy .eyebrow { margin-bottom: 13px; }
+    .contact-copy h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3rem); letter-spacing: -.06em; line-height: 1.15; }
+    .contact-copy p { max-width: 590px; margin: 14px 0 0; color: var(--muted); font-size: .95rem; }
+    .contact-actions { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; min-width: 180px; }
+    .social-links { display: flex; flex-wrap: wrap; align-items: center; gap: 17px; margin-top: 25px; }
+    .social-links a { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: .79rem; font-weight: 700; transition: color .18s ease; }
+    .social-links a:hover { color: var(--text); }
+    .social-links svg { width: 17px; height: 17px; }
+    .site-footer { padding: 30px 0 36px; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; padding-top: 23px; border-top: 1px solid var(--border); color: var(--muted); font-size: .76rem; }
+    .footer-inner p { margin: 0; }
+    .footer-back { display: inline-flex; align-items: center; gap: 7px; color: var(--text-soft); font-weight: 800; }
+    .footer-back:hover { color: var(--primary); }
+    .footer-back svg { width: 15px; height: 15px; }
+
+    @media (max-width: 1020px) {
+      .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(320px, .88fr); gap: 35px; }
+      .hero h1 { font-size: clamp(3rem, 6vw, 4.65rem); }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .projects-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .trust-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 19px; }
+      .tech-list { justify-content: flex-start; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(var(--container), calc(100% - 36px)); }
+      .nav { min-height: 68px; }
+      .menu-button { display: grid; }
+      .nav-right { gap: 8px; }
+      .nav-links { position: absolute; top: calc(100% + 1px); left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 4px; padding: 12px 18px 17px; border-bottom: 1px solid var(--border); background: var(--bg-elevated); box-shadow: 0 20px 30px rgba(0,0,0,.12); }
+      .nav-links.is-open { display: flex; }
+      .nav-links a { width: 100%; padding-inline: 14px; }
+      .hero { padding-top: 68px; padding-bottom: 76px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero h1 { max-width: 590px; font-size: clamp(3.3rem, 13vw, 5.25rem); }
+      .editor { transform: none; }
+      .editor-wrap { width: 100%; max-width: 580px; margin-inline: auto; }
+      .editor-glow { inset: 12% 4% -2%; }
+      .about-grid { grid-template-columns: 1fr; }
+      .projects-intro { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .project-count { padding-bottom: 0; }
+      .contact-panel { grid-template-columns: 1fr; gap: 24px; }
+      .contact-actions { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .contact-panel::after { right: -150px; bottom: -190px; }
+    }
+    @media (max-width: 520px) {
+      .brand-name { font-size: .94rem; }
+      .hero h1 { font-size: clamp(2.8rem, 13.5vw, 4rem); }
+      .hero-subtitle { font-size: 1.08rem; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; align-items: stretch; }
+      .hero-actions .button { width: 100%; }
+      .quick-meta { gap: 12px 15px; }
+      .editor-body { padding: 19px 12px 21px; }
+      .editor-top { padding-inline: 14px; }
+      .code-lines { font-size: .68rem; }
+      .code-lines li { grid-template-columns: 20px minmax(0,1fr); gap: 8px; }
+      .code-indent { padding-left: 10px; }
+      .trust-inner { gap: 13px; }
+      .tech-list { gap: 7px; }
+      .tech-pill { padding: 6px 8px; font-size: .69rem; }
+      .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+      .skill-card { min-height: 0; }
+      .project-controls { align-items: stretch; flex-direction: column; }
+      .project-search { flex-basis: auto; width: 100%; }
+      .filters { gap: 6px; }
+      .filter-button { padding-inline: 11px; }
+      .github-cta { align-items: flex-start; flex-direction: column; }
+      .contact-actions { align-items: stretch; flex-direction: column; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .social-links { gap: 13px 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
   </style>
 </head>
-
 <body>
-  <!-- <header> = cabeçalho do site. <nav> = bloco de links de navegação (ajuda leitores de tela e o Google). -->
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="container nav">
-      <a href="#inicio" class="logo">&lt;MT /&gt;</a>
-      <nav aria-label="Menu principal">
-        <!-- ul/li = lista de links. href="#sobre" leva até o elemento que tem id="sobre" -->
-        <ul id="nav-links" class="nav-links">
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#habilidades">Habilidades</a></li>
-          <li><a href="#projetos">Projetos</a></li>
-          <li><a href="#contato">Contato</a></li>
-        </ul>
-      </nav>
-      <div class="tools">
-        <button id="tema-btn" class="icon-btn" aria-label="Ativar tema claro">☀️</button>
-        <!-- Botão "hambúrguer": só aparece no celular (CSS). O JavaScript abre e fecha o menu. -->
-        <button id="menu-btn" class="icon-btn menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      <a class="brand" href="#inicio" aria-label="DEUM — voltar ao início">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span class="brand-name">DEUM<span>.</span></span>
+      </a>
+      <div class="nav-right">
+        <nav aria-label="Navegação principal">
+          <ul class="nav-links" id="nav-links">
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#habilidades">Habilidades</a></li>
+            <li><a href="#projetos">Projetos</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Ativar tema claro" title="Alternar tema">
+          <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+        </button>
+        <button class="icon-button menu-button" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+          <svg id="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- <main> = conteúdo principal (só pode existir UM por página).
-       Cada <section> agrupa um assunto e normalmente tem um título (h2). -->
-  <main>
-
-    <!-- HERO: a primeira coisa que o visitante vê -->
-    <section id="inicio" class="hero">
-      <div class="container hero-inner">
-        <div class="avatar-ring">
-          <!-- alt descreve a imagem (acessibilidade). width/height evitam a página "pular" enquanto a foto carrega.
-               Se a foto do GitHub não carregar, o JavaScript troca por uma cópia embutida no arquivo (veja o final do script). -->
-          <img id="avatar" class="avatar" src="https://avatars.githubusercontent.com/u/225286557?v=4&amp;s=460" alt="Foto de perfil de Marco Túlio" width="230" height="230" fetchpriority="high">
-        </div>
-        <div>
-          <p class="greeting">Olá, eu sou</p>
-          <!-- h1 = título principal. Use só UM por página (importante para SEO). -->
-          <h1>Marco Túlio</h1>
-          <p class="headline">Estudante de Técnico em Informática &amp; Desenvolvedor Web Júnior</p>
-          <!-- aria-hidden: esta linha é só efeito visual, o leitor de tela ignora. O JS escreve dentro do #digitando. -->
-          <p class="typing" aria-hidden="true"><span class="prompt">&gt;</span> <span id="digitando"></span><span class="cursor"></span></p>
-          <div class="pills">
-            <span class="pill on">Aberto a oportunidades</span>
-            <span class="pill">Brasil</span>
+  <main id="conteudo">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Portfólio de desenvolvimento</span>
+          <h1 id="hero-title">Olá, eu sou<br><span class="highlight">Marco Túlio.</span></h1>
+          <p class="hero-subtitle">Técnico em Informática em formação <span aria-hidden="true">·</span> Desenvolvedor Júnior</p>
+          <p class="hero-description">Transformo aprendizado em projetos práticos usando Java, C#, PHP e tecnologias web. Estou construindo minha trajetória na área de desenvolvimento de software, um projeto de cada vez.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projetos">Explorar projetos
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+            <a class="button button-secondary" href="https://github.com/marcodeum" target="_blank" rel="noopener noreferrer">Ver GitHub
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+            </a>
           </div>
-          <div class="actions">
-            <a href="#projetos" class="btn btn-primary">Ver projetos</a>
-            <!-- target="_blank" abre em nova aba; rel="noopener noreferrer" é uma proteção de segurança -->
-            <a href="https://github.com/marcodeum" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Ver GitHub</a>
+          <div class="quick-meta" aria-label="Informações rápidas">
+            <span><i class="status-dot" aria-hidden="true"></i> Aberto a oportunidades</span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-12a7 7 0 0 0-14 0c0 6.6 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.3"></circle></svg>
+              Brasil
+            </span>
           </div>
         </div>
-      </div>
-      <!-- SVG = desenho feito com código. Esta onda repete o banner do seu perfil do GitHub. -->
-      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="grad-onda"><stop offset="0"/><stop offset="1"/></linearGradient></defs>
-        <path fill="url(#grad-onda)" d="M0 60 C240 10 480 110 720 70 S1200 20 1440 70 V120 H0 Z"/>
-      </svg>
-    </section>
 
-    <!-- SOBRE MIM & FORMAÇÃO -->
-    <section id="sobre">
-      <div class="container">
-        <h2 class="section-title">Sobre mim &amp; Formação</h2>
-        <div class="grid about-grid">
-          <div class="stack">
-            <h3 class="sub">Sobre mim</h3>
-            <!-- <article> = conteúdo independente, que faria sentido sozinho (um card, um post...) -->
-            <article class="card about">
-              <p>Sou estudante de Técnico em Informática e Desenvolvedor Júnior, com foco em desenvolvimento de software e web. Tenho experiência com <strong>Java, C#, PHP, HTML, CSS</strong>, e bancos de dados relacionais. Busco evoluir constantemente através de estudos, projetos práticos e desafios, visando construir uma carreira sólida em engenharia de software. <strong>Pretendo cursar Engenharia de Software.</strong></p>
-            </article>
-            <h3 class="sub">Conquistas</h3>
-            <article class="card edu">
-              <span aria-hidden="true">🏅</span>
-              <div><h3>Medalha de Ouro</h3><p class="muted">Olimpíada Brasileira de Língua Inglesa (OBLI)</p></div>
-            </article>
-          </div>
-          <div class="stack">
-            <h3 class="sub">Formação</h3>
-            <article class="card edu">
-              <span aria-hidden="true">🎓</span>
-              <div><h3>Técnico em TI</h3><p class="muted">SENAI <span class="pill on">Em andamento</span></p></div>
-            </article>
-            <article class="card edu">
-              <span aria-hidden="true">💻</span>
-              <div><h3>Programação com Java e C# .NET</h3><p class="muted">SENAI</p></div>
-            </article>
-            <article class="card edu">
-              <span aria-hidden="true">🧩</span>
-              <div><h3>Metodologias de Desenvolvimento de Software</h3><p class="muted">SENAI</p></div>
-            </article>
+        <div class="editor-wrap" aria-label="Cartão visual com uma apresentação em código">
+          <div class="editor-glow" aria-hidden="true"></div>
+          <div class="editor">
+            <div class="editor-top" aria-hidden="true">
+              <span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span>
+              <span class="editor-file">MarcoTulio.java</span>
+            </div>
+            <div class="editor-body">
+              <div class="editor-label"><span>src / portfolio</span><span>● Java</span></div>
+              <ol class="code-lines" aria-label="Exemplo de código Java">
+                <li><span class="line-number">1</span><span><span class="code-pink">public class</span> <span class="code-yellow">MarcoTulio</span> {</span></li>
+                <li><span class="line-number">2</span><span class="code-indent"><span class="code-purple">String</span> cargo = <span class="code-cyan">"Desenvolvedor Júnior"</span>;</span></li>
+                <li><span class="line-number">3</span><span class="code-indent"><span class="code-purple">String[]</span> stack = {</span></li>
+                <li><span class="line-number">4</span><span class="code-indent code-indent"><span class="code-cyan">"Java", "C#", "PHP"</span></span></li>
+                <li><span class="line-number">5</span><span class="code-indent">};</span></li>
+                <li><span class="line-number">6</span><span class="code-indent"><span class="code-purple">String</span> foco = <span class="code-cyan">"Aprender fazendo"</span>;</span></li>
+                <li><span class="line-number">7</span><span class="code-indent"><span class="code-purple">boolean</span> abertoAOPortunidades = <span class="code-pink">true</span>;</span></li>
+                <li><span class="line-number">8</span><span>}</span></li>
+              </ol>
+            </div>
+            <div class="editor-footer"><span><i class="tiny-dot" aria-hidden="true"></i> Em constante evolução</span><span>UTF-8&nbsp; · &nbsp;Java</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- HABILIDADES: badges por área + barra com os dados reais do seu GitHub -->
-    <section id="habilidades">
+    <div class="trust-strip" aria-label="Tecnologias principais">
+      <div class="container trust-inner">
+        <span class="trust-label">Tecnologias que fazem parte da minha jornada</span>
+        <div class="tech-list">
+          <span class="tech-pill" style="--pill-color:#f89820">Java</span>
+          <span class="tech-pill" style="--pill-color:#a78bfa">C#</span>
+          <span class="tech-pill" style="--pill-color:#8993be">PHP</span>
+          <span class="tech-pill" style="--pill-color:#f0db4f">JavaScript</span>
+          <span class="tech-pill" style="--pill-color:#e34f26">HTML / CSS</span>
+          <span class="tech-pill" style="--pill-color:#4db4d8">MySQL</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="content-section" id="sobre" aria-labelledby="sobre-title">
       <div class="container">
-        <h2 class="section-title">Habilidades</h2>
-        <div class="grid skill-groups">
-          <!-- style="--c:#e34f26" cria a variável --c SÓ neste elemento; o CSS usa var(--c) para pintar a bolinha. -->
-          <article class="card">
-            <h3>Front-end</h3>
-            <ul class="badges">
-              <li class="badge" style="--c:#e34f26">HTML</li>
-              <li class="badge" style="--c:#1572b6">CSS</li>
-              <li class="badge" style="--c:#f7df1e">JavaScript</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Back-end</h3>
-            <ul class="badges">
-              <li class="badge" style="--c:#8993be">PHP</li>
-              <li class="badge" style="--c:#f89820">Java</li>
-              <li class="badge" style="--c:#9b4f96">C#</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Banco de dados</h3>
-            <ul class="badges">
-              <li class="badge" style="--c:#00a3c4">MySQL</li>
-            </ul>
-          </article>
-          <!-- Cada span recebe sua porcentagem em --p. Os números vêm das estatísticas do GitHub: atualize quando quiser. -->
-          <article class="card langs">
-            <h3>Linguagens mais usadas nos meus repositórios</h3>
-            <div class="bar" role="img" aria-label="Java 68,88%, PHP 11,12%, HTML 10,24%, C# 6,45%, CSS 3,32%">
-              <span style="--p:68.88;--c:#f89820"></span>
-              <span style="--p:11.12;--c:#8993be"></span>
-              <span style="--p:10.24;--c:#e34f26"></span>
-              <span style="--p:6.45;--c:#9b4f96"></span>
-              <span style="--p:3.32;--c:#1572b6"></span>
+        <div class="section-heading">
+          <span class="eyebrow">Um pouco sobre mim</span>
+          <h2 id="sobre-title">Aprendizado que vira <span style="color:var(--primary)">experiência prática.</span></h2>
+          <p>Minha trajetória combina formação técnica, curiosidade e desenvolvimento de projetos para praticar o que estudo.</p>
+        </div>
+        <div class="about-grid">
+          <article class="surface-card about-main">
+            <h3>Construindo minha base como desenvolvedor</h3>
+            <p>Sou estudante de <strong>Técnico em Informática no SENAI</strong> e venho desenvolvendo aplicações com Java, C#, PHP, HTML, CSS e JavaScript, além de trabalhar com bancos de dados relacionais.</p>
+            <p>Nos projetos, pratico conceitos como lógica de programação, orientação a objetos, operações de cadastro e manipulação de dados. Quero continuar evoluindo tecnicamente e ganhar experiência colaborando com equipes e resolvendo problemas reais.</p>
+            <p>Meu próximo objetivo acadêmico é cursar <strong>Análise e Desenvolvimento de Sistemas (ADS)</strong> e, posteriormente, <strong>Engenharia de Software</strong>.</p>
+            <div class="about-footer">
+              <span class="soft-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"></path></svg> Projetos práticos</span>
+              <span class="soft-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg> Aprendizado contínuo</span>
             </div>
-            <ul class="legend">
-              <li style="--c:#f89820">Java 68,88%</li>
-              <li style="--c:#8993be">PHP 11,12%</li>
-              <li style="--c:#e34f26">HTML 10,24%</li>
-              <li style="--c:#9b4f96">C# 6,45%</li>
-              <li style="--c:#1572b6">CSS 3,32%</li>
-            </ul>
+          </article>
+          <aside class="surface-card learning-card" aria-labelledby="formacao-title">
+            <div class="learning-top">
+              <div class="learning-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 10-10-5L2 10l10 5 10-5Z"></path><path d="M6 12v5c4 3 8 3 12 0v-5M22 10v6"></path></svg></div>
+              <div><p>Formação & desenvolvimento</p><h3 id="formacao-title">Minha trajetória</h3></div>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><div><h4>Técnico em Informática <span class="current">Em andamento</span></h4><p>SENAI</p></div></div>
+              <div class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><div><h4>Programação com Java e C#</h4><p>SENAI · Formação complementar</p></div></div>
+              <div class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><div><h4>Metodologias de Desenvolvimento de Software</h4><p>SENAI · Formação complementar</p></div></div>
+            </div>
+            <div class="award-row">
+              <div class="award-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"></circle><path d="m8.2 12-1.2 9 5-3 5 3-1.2-9"></path></svg></div>
+              <div><strong>Medalha de Ouro · OBLI</strong><span>Olimpíada Brasileira de Língua Inglesa</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="habilidades" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Ferramentas e conhecimentos</span>
+          <h2 id="skills-title">Minha caixa de ferramentas.</h2>
+          <p>Tecnologias que utilizo ou estudo nos meus projetos atuais. Estou sempre ampliando essa base com prática.</p>
+        </div>
+        <div class="skills-grid">
+          <article class="skill-card">
+            <div class="skill-icon" style="--skill-color:#f0a35e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"></path></svg></div>
+            <h3>Desenvolvimento web</h3><p>Estrutura, estilos e interatividade para páginas e interfaces responsivas.</p>
+            <div class="tools-line"><span class="soft-tag">HTML</span><span class="soft-tag">CSS</span><span class="soft-tag">JavaScript</span><span class="soft-tag">Bootstrap</span></div>
+          </article>
+          <article class="skill-card">
+            <div class="skill-icon" style="--skill-color:#b8a3ff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M8 9h8M8 12h5M8 15h8"></path></svg></div>
+            <h3>Lógica & programação</h3><p>Construção de aplicações, organização de código e prática com orientação a objetos.</p>
+            <div class="tools-line"><span class="soft-tag">Java</span><span class="soft-tag">C#</span><span class="soft-tag">PHP</span></div>
+          </article>
+          <article class="skill-card">
+            <div class="skill-icon" style="--skill-color:#70eed2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"></path></svg></div>
+            <h3>Banco de dados</h3><p>Manipulação e organização de dados relacionais para aplicações e operações CRUD.</p>
+            <div class="tools-line"><span class="soft-tag">SQL</span><span class="soft-tag">MySQL</span><span class="soft-tag">SQLite</span></div>
+          </article>
+          <article class="skill-card">
+            <div class="skill-icon" style="--skill-color:#ff7cae"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"></path></svg></div>
+            <h3>Ferramentas de trabalho</h3><p>Ambientes de desenvolvimento e controle de versão para organizar o fluxo de trabalho.</p>
+            <div class="tools-line"><span class="soft-tag">Git</span><span class="soft-tag">GitHub</span><span class="soft-tag">VS Code</span><span class="soft-tag">IntelliJ</span><span class="soft-tag">Visual Studio</span></div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- PROJETOS: um card para cada projeto -->
-    <section id="projetos">
+    <section class="content-section" id="projetos" aria-labelledby="projects-title">
       <div class="container">
-        <h2 class="section-title">Projetos em destaque</h2>
-        <div class="grid projects-grid">
-          <article class="card project">
-            <p class="repo"><span aria-hidden="true">🏨</span> marcodeum/hotel</p>
-            <h3>Sistema de Hotel</h3>
-            <p class="muted">Sistema para cadastro e reservas de hotel.</p>
-            <ul class="tags"><li>HTML5</li><li>CSS</li><li>PHP</li></ul>
-            <a class="btn btn-outline" href="https://github.com/marcodeum/hotel" target="_blank" rel="noopener noreferrer">Ver no GitHub</a>
-          </article>
-          <article class="card project">
-            <p class="repo"><span aria-hidden="true">🧠</span> marcodeum/anima-psico</p>
-            <h3>Anima Psico</h3>
-            <!-- EXERCÍCIO: troque o texto abaixo por uma descrição real do projeto e, se quiser,
-                 copie o bloco de tags (ul class="tags") do card ao lado para listar as tecnologias. -->
-            <p class="muted">Projeto prático da minha jornada em desenvolvimento de software. O código-fonte está disponível no repositório.</p>
-            <a class="btn btn-outline" href="https://github.com/marcodeum/anima-psico" target="_blank" rel="noopener noreferrer">Ver no GitHub</a>
-          </article>
-        </div>
-        <p class="more muted">Mais repositórios (trabalhos de POO, listas de exercícios) no <a href="https://github.com/marcodeum" target="_blank" rel="noopener noreferrer">meu perfil do GitHub</a>.</p>
-      </div>
-    </section>
-
-    <!-- CONTATO: a "ponte" para o Back-end -->
-    <section id="contato">
-      <div class="container">
-        <h2 class="section-title">Contato</h2>
-        <div class="grid contact-grid">
-          <div class="stack">
-            <p class="muted">Quer conversar sobre estágio, projetos ou estudos? Envie uma mensagem pelo formulário ou me chame pelo GitHub.</p>
-            <a class="btn btn-outline" href="https://github.com/marcodeum" target="_blank" rel="noopener noreferrer">github.com/marcodeum</a>
+        <div class="projects-intro">
+          <div class="section-heading">
+            <span class="eyebrow">Feito com código</span>
+            <h2 id="projects-title">Projetos em destaque.</h2>
+            <p>Uma seleção de projetos de estudo e aplicações que venho desenvolvendo para consolidar meus conhecimentos.</p>
           </div>
+          <span class="project-count" id="project-count" aria-live="polite">6 projetos</span>
+        </div>
+        <div class="project-controls">
+          <div class="filters" id="project-filters" role="group" aria-label="Filtrar projetos por tecnologia">
+            <button type="button" class="filter-button" data-filter="all" aria-pressed="true">Todos</button>
+            <button type="button" class="filter-button" data-filter="Java" aria-pressed="false">Java</button>
+            <button type="button" class="filter-button" data-filter="C#" aria-pressed="false">C#</button>
+            <button type="button" class="filter-button" data-filter="PHP" aria-pressed="false">PHP</button>
+            <button type="button" class="filter-button" data-filter="Web" aria-pressed="false">Web</button>
+          </div>
+          <label class="project-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+            <input type="search" id="project-search" placeholder="Buscar projeto..." aria-label="Buscar projeto por nome ou tecnologia">
+          </label>
+        </div>
 
-          <!--
-            AULA DE BACK-END (leia com atenção!)
-            - method="POST": envia os dados dentro da requisição, sem mostrá-los na URL (o GET mostraria).
-            - action="processa_contato.php": é o arquivo PHP que vai RECEBER os dados no servidor (XAMPP).
-            - O atributo name é a "CHAVE" que o PHP usa na superglobal $_POST para capturar cada valor.
-              Exemplo: o input com name="email" chega no PHP assim:   $email = $_POST['email'];
-            - Sem o name, o campo NÃO é enviado ao servidor! O id serve para o label, o CSS e o JS; o name serve para o back-end.
-            - Para testar: coloque este arquivo em C:\xampp\htdocs\portfolio\, ligue o Apache no XAMPP
-              e abra http://localhost/portfolio/ (com duplo clique ou no GitHub Pages o PHP não roda, e o JS avisa).
-            - novalidate desliga a validação padrão do navegador, para usarmos a nossa, feita em JavaScript.
-          -->
-          <form id="contact-form" class="card" action="processa_contato.php" method="POST" novalidate>
-            <!-- label for="nome" se liga ao input id="nome": clicar no texto já foca o campo.
-                 aria-describedby liga o campo à mensagem de erro, para o leitor de tela ler. -->
-            <div class="field">
-              <label for="nome">Nome</label>
-              <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" maxlength="80" required aria-describedby="erro-nome">
-              <small class="error" id="erro-nome" aria-live="polite"></small>
+        <div class="projects-grid" id="projects-grid">
+          <article class="project-card" data-tech="Web" style="--project-color:#70eed2" data-name="anima psico site institucional javascript html css bootstrap">
+            <div class="project-top"><span class="project-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path><path d="M8 7h8M8 11h6"></path></svg></span><span class="repo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> Repositório</span></div>
+            <h3>Anima Psico</h3><p>Site institucional desenvolvido como projeto web, com foco na apresentação do projeto e na organização visual do conteúdo.</p>
+            <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Bootstrap</span></div>
+            <a class="project-link" href="https://github.com/marcodeum/anima-psico" target="_blank" rel="noopener noreferrer">Ver código no GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+          </article>
+
+          <article class="project-card" data-tech="PHP Web" style="--project-color:#8993be" data-name="sistema de hotel cadastro reservas php html css">
+            <div class="project-top"><span class="project-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v16M3 9h18M7 6h.01M11 6h.01M15 6h.01M7 13h3v3H7zM14 13h3v3h-3zM10 21v-4h4v4"></path></svg></span><span class="repo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> Repositório</span></div>
+            <h3>Sistema de Hotel</h3><p>Projeto acadêmico para cadastro e reserva de hotel, com páginas e rotinas de gerenciamento de hotéis, quartos, clientes e reservas.</p>
+            <div class="project-tags"><span>PHP</span><span>HTML</span><span>CSS</span></div>
+            <a class="project-link" href="https://github.com/marcodeum/hotel" target="_blank" rel="noopener noreferrer">Ver código no GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+          </article>
+
+          <article class="project-card" data-tech="Java" style="--project-color:#f0a35e" data-name="crud de usuários java banco dados usuarios cadastro">
+            <div class="project-top"><span class="project-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20v-1.2A4.8 4.8 0 0 1 7.8 14h2.4a4.8 4.8 0 0 1 4.8 4.8V20M17 8h4M19 6v4M17 15h4M17 19h4"></path></svg></span><span class="repo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> Repositório</span></div>
+            <h3>CRUD de Usuários</h3><p>Aplicação para praticar operações de cadastro, consulta, atualização e exclusão de usuários, reforçando a organização da lógica da aplicação.</p>
+            <div class="project-tags"><span>Java</span><span>CRUD</span><span>Dados</span></div>
+            <a class="project-link" href="https://github.com/marcodeum/CRUD-de-Usuarios" target="_blank" rel="noopener noreferrer">Ver código no GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+          </article>
+
+          <article class="project-card" data-tech="C#" style="--project-color:#b8a3ff" data-name="calculadora desktop c# windows forms .net">
+            <div class="project-top"><span class="project-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"></rect><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 18h2m4 0h2"></path></svg></span><span class="repo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> Repositório</span></div>
+            <h3>Calculadora Desktop</h3><p>Calculadora para desktop criada com C# e Windows Forms, praticando eventos de interface e lógica de operações matemáticas.</p>
+            <div class="project-tags"><span>C#</span><span>Windows Forms</span><span>.NET</span></div>
+            <a class="project-link" href="https://github.com/marcodeum/mtpns-winforms-calculator" target="_blank" rel="noopener noreferrer">Ver código no GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+          </article>
+
+          <article class="project-card" data-tech="Java" style="--project-color:#f0a35e" data-name="agenda de contatos java cadastro edição exclusão">
+            <div class="project-top"><span class="project-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 3v3M16 3v3M4 9h16"></path><circle cx="9" cy="13" r="1.5"></circle><path d="M7 18a2.5 2.5 0 0 1 4 0M14 13h3M14 16h3"></path></svg></span><span class="repo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> Repositório</span></div>
+            <h3>Agenda de Contatos</h3><p>Aplicação em Java para organizar contatos e praticar funcionalidades de cadastro, edição e exclusão de informações.</p>
+            <div class="project-tags"><span>Java</span><span>CRUD</span></div>
+            <a class="project-link" href="https://github.com/marcodeum/mtpns-agenda-de-contatos" target="_blank" rel="noopener noreferrer">Ver código no GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+          </article>
+
+          <article class="project-card" data-tech="Java" style="--project-color:#f0a35e" data-name="shutdown scheduler agendamento desligamento computador java utilitário">
+            <div class="project-top"><span class="project-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v10"></path><path d="M6.2 5.8a8 8 0 1 0 11.6 0"></path></svg></span><span class="repo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> Repositório</span></div>
+            <h3>Shutdown Scheduler</h3><p>Utilitário em Java relacionado ao agendamento do desligamento do computador, desenvolvido para praticar lógica e automação local.</p>
+            <div class="project-tags"><span>Java</span><span>Utilitário</span></div>
+            <a class="project-link" href="https://github.com/marcodeum/ShutdownScheduler" target="_blank" rel="noopener noreferrer">Ver código no GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+          </article>
+        </div>
+        <div class="empty-state" id="empty-state" role="status">Nenhum projeto encontrado. Tente outro nome ou filtro.</div>
+        <div class="github-cta">
+          <p><strong>Quer explorar mais?</strong> No GitHub, compartilho outros exercícios, estudos e projetos em andamento.</p>
+          <a href="https://github.com/marcodeum?tab=repositories" target="_blank" rel="noopener noreferrer">Todos os repositórios <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section contact-section" id="contato" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-panel">
+          <div class="contact-copy">
+            <span class="eyebrow">Vamos conversar</span>
+            <h2 id="contact-title">O próximo passo pode começar por aqui.</h2>
+            <p>Estou buscando minha primeira oportunidade na área de desenvolvimento de software. Se você tem uma vaga júnior, estágio ou quer trocar uma ideia sobre tecnologia, entre em contato.</p>
+            <div class="social-links" aria-label="Outros canais">
+              <a href="https://github.com/marcodeum" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.8 1.4a13 13 0 0 0-6.9 0C5.4.2 4.3.5 4.3.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 8.1 17V22"></path></svg> GitHub</a>
+              <a href="https://www.linkedin.com/in/marco-t%C3%BAlio-00017b43a/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6ZM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn</a>
+              <a href="https://www.instagram.com/anima_desenvolvimento/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5h.01"></path></svg> Instagram</a>
             </div>
-            <div class="field">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="email" maxlength="120" required aria-describedby="erro-email">
-              <small class="error" id="erro-email" aria-live="polite"></small>
-            </div>
-            <div class="field">
-              <label for="assunto">Assunto</label>
-              <input type="text" id="assunto" name="assunto" placeholder="Sobre o que quer falar?" maxlength="100" required aria-describedby="erro-assunto">
-              <small class="error" id="erro-assunto" aria-live="polite"></small>
-            </div>
-            <div class="field">
-              <label for="mensagem">Mensagem</label>
-              <textarea id="mensagem" name="mensagem" placeholder="Escreva sua mensagem..." maxlength="1000" required aria-describedby="erro-mensagem"></textarea>
-              <small class="error" id="erro-mensagem" aria-live="polite"></small>
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar mensagem</button>
-            <p id="form-status" class="status-msg" role="status"></p>
-          </form>
+          </div>
+          <div class="contact-actions">
+            <a class="button button-primary" href="mailto:marco.souza300322@gmail.com">Enviar um e-mail <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 4 16 8-16 8 3-8-3-8Z"></path><path d="M7 12h13"></path></svg></a>
+            <a class="button button-secondary" href="https://wa.me/5531973345419" target="_blank" rel="noopener noreferrer">Conversar no WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z"></path></svg></a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- <footer> = rodapé do site -->
-  <footer>
-    <div class="container foot">
-      <p>© <span id="ano"></span> Marco Túlio. Feito com HTML, CSS e JavaScript puro.</p>
-      <a href="#inicio">Voltar ao topo</a>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="current-year"></span> Marco Túlio. Feito com HTML, CSS e JavaScript.</p>
+      <a href="#inicio" class="footer-back">Voltar ao início <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></a>
     </div>
   </footer>
 
-  <!-- O script fica no FIM do body para o navegador já ter desenhado todos os elementos
-       que o JavaScript vai procurar (senão document.querySelector devolveria null). -->
   <script>
-    // ===== 0. CONFIGURAÇÕES (edite aqui!) =====
-    // Para o formulário funcionar no GitHub Pages, coloque seu e-mail entre as aspas. Ex.: 'voce@gmail.com'
-    const EMAIL_CONTATO = '';
+    (() => {
+      const root = document.documentElement;
+      const themeButton = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const menuButton = document.getElementById('menu-toggle');
+      const menuIcon = document.getElementById('menu-icon');
+      const navLinks = document.getElementById('nav-links');
+      const progress = document.getElementById('reading-progress');
+      const year = document.getElementById('current-year');
+      const filterButtons = Array.from(document.querySelectorAll('.filter-button'));
+      const projectCards = Array.from(document.querySelectorAll('.project-card'));
+      const searchInput = document.getElementById('project-search');
+      const projectCount = document.getElementById('project-count');
+      const emptyState = document.getElementById('empty-state');
+      const sections = Array.from(document.querySelectorAll('main section[id]'));
+      let activeFilter = 'all';
 
-    // ===== 1. SELEÇÃO DO DOM =====
-    // querySelector('#id') acha UM elemento (usa seletor CSS); const guarda o resultado numa variável.
-    const raiz      = document.documentElement;              // a própria tag <html>
-    const temaBtn   = document.querySelector('#tema-btn');
-    const menuBtn   = document.querySelector('#menu-btn');
-    const navLinks  = document.querySelector('#nav-links');
-    const form      = document.querySelector('#contact-form');
-    const statusMsg = document.querySelector('#form-status');
-    const avatar    = document.querySelector('#avatar');
-    // querySelectorAll acha VÁRIOS elementos. 'a[href^="#"]' = links cujo href COMEÇA com "#" (links internos).
-    const linksInternos = document.querySelectorAll('a[href^="#"]');
-    const campos        = form.querySelectorAll('input, textarea');
-    // matchMedia pergunta ao sistema: a pessoa pediu menos animação? (true ou false)
-    const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      year.textContent = new Date().getFullYear();
 
-    // ===== 2. TEMA CLARO / ESCURO =====
-    function aplicarTema(tema) {
-      raiz.dataset.theme = tema;                                   // muda data-theme na tag <html>: o CSS faz o resto
-      temaBtn.textContent = tema === 'dark' ? '☀️' : '🌙';        // ícone mostra o tema para onde você vai
-      temaBtn.setAttribute('aria-label', tema === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro');
-    }
-    let temaAtual = 'dark';
-    try { temaAtual = localStorage.getItem('tema') || 'dark'; } catch (erro) {} // localStorage lembra a escolha no navegador
-    aplicarTema(temaAtual);
-    temaBtn.addEventListener('click', () => {                      // quando clicar no botão...
-      temaAtual = temaAtual === 'dark' ? 'light' : 'dark';         // ...inverte o tema
-      aplicarTema(temaAtual);
-      try { localStorage.setItem('tema', temaAtual); } catch (erro) {} // ...e guarda a escolha
-    });
+      function applyTheme(theme) {
+        root.dataset.theme = theme;
+        const isDark = theme === 'dark';
+        themeIcon.innerHTML = isDark
+          ? '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>'
+          : '<path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.6 8.6 0 1 0 20.9 13Z"></path>';
+        themeButton.setAttribute('aria-label', isDark ? 'Ativar tema claro' : 'Ativar tema escuro');
+        themeButton.title = isDark ? 'Ativar tema claro' : 'Ativar tema escuro';
+        try { localStorage.setItem('deum-theme', theme); } catch (_) { /* Armazenamento pode estar bloqueado. */ }
+      }
 
-    // ===== 3. MENU MOBILE =====
-    function fecharMenu() {
-      navLinks.classList.remove('open');                           // tira a classe que mostra o menu
-      menuBtn.setAttribute('aria-expanded', false);                // avisa leitores de tela
-    }
-    menuBtn.addEventListener('click', () => {
-      const aberto = navLinks.classList.toggle('open');            // toggle liga/desliga a classe e devolve true se ligou
-      menuBtn.setAttribute('aria-expanded', aberto);
-    });
-    document.addEventListener('keydown', (evento) => {            // qualquer tecla apertada na página...
-      if (evento.key === 'Escape') fecharMenu();                   // ...se for Esc, fecha o menu
-    });
+      let savedTheme = null;
+      try { savedTheme = localStorage.getItem('deum-theme'); } catch (_) { /* Usa o tema padrão quando necessário. */ }
+      applyTheme(savedTheme === 'light' ? 'light' : 'dark');
+      themeButton.addEventListener('click', () => applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
 
-    // ===== 4. ROLAGEM SUAVE (SMOOTH SCROLL) =====
-    linksInternos.forEach((link) => {                              // forEach repete o código para CADA link interno
-      link.addEventListener('click', (evento) => {                 // ao clicar no link...
-        const destino = document.querySelector(link.getAttribute('href')); // pega o href (ex.: "#projetos") e acha o elemento
-        if (!destino) return;                                      // id não existe? não faz nada
-        evento.preventDefault();                                   // cancela o "pulo" padrão do navegador
-        destino.scrollIntoView({ behavior: reduzMovimento ? 'auto' : 'smooth' }); // rola até o destino
-        fecharMenu();                                              // fecha o menu mobile
+      function closeMenu() {
+        navLinks.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Abrir menu');
+        menuIcon.innerHTML = '<path d="M4 7h16M4 12h16M4 17h16"></path>';
+      }
+      menuButton.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('is-open');
+        menuButton.setAttribute('aria-expanded', String(isOpen));
+        menuButton.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+        menuIcon.innerHTML = isOpen ? '<path d="m6 6 12 12M18 6 6 18"></path>' : '<path d="M4 7h16M4 12h16M4 17h16"></path>';
       });
-    });
+      navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+      document.addEventListener('click', event => {
+        if (!navLinks.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+      });
+      window.addEventListener('resize', () => { if (window.innerWidth > 760) closeMenu(); }, { passive: true });
 
-    // ===== 5. LINK ATIVO NO MENU (IntersectionObserver) =====
-    // O "observador" avisa quando uma seção cruza o MEIO da tela (rootMargin recorta o centro da janela).
-    const menuItens = document.querySelectorAll('.nav-links a');
-    const vigia = new IntersectionObserver((entradas) => {
-      entradas.forEach((entrada) => {
-        if (!entrada.isIntersecting) return;                       // só nos interessa quem ENTROU na faixa do meio
-        menuItens.forEach((a) => {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + entrada.target.id); // marca só o link da seção atual
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', event => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          if (history.replaceState) history.replaceState(null, '', link.getAttribute('href'));
         });
       });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    document.querySelectorAll('main section').forEach((secao) => vigia.observe(secao)); // observa cada seção
 
-    // ===== 6. EFEITO DE DIGITAÇÃO NO HERO =====
-    const frases = ['criando sites com HTML, CSS e JavaScript', 'programando em Java e C#', 'estudando PHP e MySQL', 'rumo à Engenharia de Software'];
-    const digitando = document.querySelector('#digitando');
-    let fraseAtual = 0, letras = 0, apagando = false;              // estado: qual frase, quantas letras aparecem, se está apagando
-    function digitar() {
-      const frase = frases[fraseAtual];
-      letras += apagando ? -1 : 1;                                 // soma ou tira uma letra
-      digitando.textContent = frase.slice(0, letras);              // slice(0, n) pega as n primeiras letras
-      let espera = apagando ? 35 : 80;                             // velocidade (ms): apagar é mais rápido
-      if (!apagando && letras === frase.length) { apagando = true; espera = 1600; }   // frase completa: espera e começa a apagar
-      else if (apagando && letras === 0) { apagando = false; fraseAtual = (fraseAtual + 1) % frases.length; espera = 350; } // apagou tudo: próxima frase
-      setTimeout(digitar, espera);                                 // chama a si mesma de novo depois de "espera" ms
-    }
-    if (reduzMovimento) digitando.textContent = frases[0]; else digitar(); // sem animação para quem pediu menos movimento
-
-    // ===== 7. VALIDAÇÃO DO FORMULÁRIO =====
-    // Cada regra devolve true (campo OK) ou um texto de erro. A chave é o MESMO name usado no HTML e no PHP!
-    const regras = {
-      nome:     (v) => v.length >= 3 || 'Digite seu nome (mínimo 3 letras).',
-      email:    (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Digite um e-mail válido, como voce@exemplo.com.',
-      assunto:  (v) => v !== '' || 'Informe o assunto da mensagem.',
-      mensagem: (v) => v.length >= 10 || 'Escreva pelo menos 10 caracteres.'
-    };
-
-    function validarCampo(campo) {                                 // valida UM campo e devolve true se estiver OK
-      const valor = campo.value.trim();                            // trim() tira espaços do começo e do fim
-      const resultado = regras[campo.name](valor);                 // campo.name = "email" -> regras["email"]
-      const ok = resultado === true;
-      document.querySelector('#erro-' + campo.name).textContent = ok ? '' : resultado; // mostra (ou limpa) o erro
-      campo.classList.toggle('invalid', !ok);                      // 2º argumento true/false decide se a classe fica
-      campo.setAttribute('aria-invalid', !ok);                     // avisa leitores de tela
-      return ok;
-    }
-    function mostrarStatus(texto, tipo) {                          // escreve a mensagem abaixo do botão (tipo: 'ok' ou 'err')
-      statusMsg.textContent = texto;
-      statusMsg.className = 'status-msg ' + tipo;
-    }
-
-    campos.forEach((campo) => {
-      campo.addEventListener('blur', () => validarCampo(campo));   // valida ao SAIR do campo
-      campo.addEventListener('input', () => {                      // se já estava com erro, revalida enquanto DIGITA
-        if (campo.classList.contains('invalid')) validarCampo(campo);
-      });
-    });
-
-    // O PHP só roda em um servidor (XAMPP). No GitHub Pages (site estático) ou abrindo o arquivo com duplo clique, o POST falharia.
-    const servidorPHP = location.protocol.startsWith('http') && !location.hostname.endsWith('github.io');
-
-    form.addEventListener('submit', (evento) => {                  // 'submit' dispara ao clicar em "Enviar mensagem"
-      let tudoCerto = true;
-      campos.forEach((campo) => { if (!validarCampo(campo)) tudoCerto = false; });
-
-      if (!tudoCerto) {
-        evento.preventDefault();                                   // IMPEDE o envio enquanto houver erro
-        mostrarStatus('Corrija os campos destacados.', 'err');
-        form.querySelector('.invalid').focus();                    // leva o cursor ao primeiro campo com erro
-        return;
+      function updateProgress() {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.transform = `scaleX(${scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0})`;
       }
-      if (servidorPHP) {                                           // localhost/XAMPP: deixa o navegador enviar o POST para o PHP
-        mostrarStatus('Enviando...', 'ok');
-        return;
-      }
-      evento.preventDefault();                                     // sem PHP aqui: nós mesmos cuidamos do envio
-      if (EMAIL_CONTATO) {
-        const dados = new FormData(form);                          // FormData lê os campos pelo name, igual ao $_POST do PHP
-        const corpo = 'Nome: ' + dados.get('nome') + '\nE-mail: ' + dados.get('email') + '\n\n' + dados.get('mensagem');
-        location.href = 'mailto:' + EMAIL_CONTATO + '?subject=' + encodeURIComponent(dados.get('assunto')) + '&body=' + encodeURIComponent(corpo);
-        mostrarStatus('Abrindo seu aplicativo de e-mail...', 'ok');
-      } else {
-        mostrarStatus('O envio por PHP só funciona em servidor (XAMPP). Por aqui, me chame pelo GitHub!', 'err');
-      }
-    });
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
 
-    // ===== 8. ANO AUTOMÁTICO NO RODAPÉ =====
-    // new Date().getFullYear() devolve o ano atual; textContent troca o texto do elemento.
-    document.querySelector('#ano').textContent = new Date().getFullYear();
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.id;
+            navLinks.querySelectorAll('a').forEach(link => {
+              if (link.getAttribute('href') === `#${id}`) link.setAttribute('aria-current', 'location');
+              else link.removeAttribute('aria-current');
+            });
+          });
+        }, { rootMargin: '-28% 0px -60% 0px', threshold: 0 });
+        sections.forEach(section => observer.observe(section));
+      }
 
-    // ===== 9. FOTO DE PERFIL: PLANO B =====
-    // Se a foto do GitHub não carregar (sem internet, por exemplo), usamos esta cópia da sua foto embutida no arquivo.
-    // É base64: a imagem escrita como texto. Não precisa estudar esta linha enorme!
-    const fotoReserva = 'data:image/webp;base64,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';
-    const trocarFoto = () => { avatar.src = fotoReserva; };
-    avatar.addEventListener('error', trocarFoto);                  // se a foto falhar daqui para frente
-    if (avatar.complete && avatar.naturalWidth === 0) trocarFoto(); // ou se já tinha falhado antes de o script rodar
+      function filterProjects() {
+        const query = searchInput.value.trim().toLocaleLowerCase('pt-BR');
+        let visible = 0;
+        projectCards.forEach(card => {
+          const techs = card.dataset.tech.split(' ');
+          const content = `${card.dataset.name} ${card.textContent}`.toLocaleLowerCase('pt-BR');
+          const passesFilter = activeFilter === 'all' || techs.includes(activeFilter);
+          const passesSearch = !query || content.includes(query);
+          const show = passesFilter && passesSearch;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        projectCount.textContent = `${visible} ${visible === 1 ? 'projeto' : 'projetos'}`;
+        emptyState.classList.toggle('is-visible', visible === 0);
+      }
+      filterButtons.forEach(button => button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        filterProjects();
+      }));
+      searchInput.addEventListener('input', filterProjects);
+      filterProjects();
+    })();
   </script>
 </body>
 </html>
